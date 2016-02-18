@@ -8,6 +8,7 @@ public class StickStretcher : MonoBehaviour {
 	public GameObject Cube1;
 	public GameObject Cube2;
 	public GameObject Cube3;
+	public GameObject SurpriseParticle;
 	float[] samples;
 
 	Vector3 boxScale;
@@ -33,6 +34,10 @@ public class StickStretcher : MonoBehaviour {
 		SetBoxScale(Cube2, samples, 300, 700);
 		SetBoxScale(Cube3, samples, 700, 1024);
 
+		if(Cube3.transform.localScale.y >= boxScale.y) {
+			SpawnParticle();
+		}
+
 	}
 
 	void SetBoxScale(GameObject Obj, float[] samples, int begin, int end) {
@@ -48,6 +53,12 @@ public class StickStretcher : MonoBehaviour {
 
 		Debug.Log(totalOutput);
 		Obj.transform.localScale = new Vector3(boxScale.x, boxScale.y*totalOutput, boxScale.z);
+	}
+
+	void SpawnParticle()
+	{
+		Random.Range(-3,3);
+		GameObject newParticle = ((GameObject)(Instantiate(SurpriseParticle, new Vector3(0,4,0), new Quaternion())));
 	}
 }
 
