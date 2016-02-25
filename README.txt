@@ -20,13 +20,14 @@ ACCOMPLISHED
 - bloom effects, and all of unitys built in shaders
 - objects changing in response to music
 - basic game design
+- sphere automatically populated with buildings for terrain
 
 
 WEEK GOALS
 -----------
 - generate linear path with balls generating along them
-- create spherical landscape 
 - have user move along the sphere
+- box outline shader
 
  
 END GOALS
@@ -39,5 +40,7 @@ END GOALS
 - score keeping and tutorial
 - what is the player -- look into journey esc games for character design 
 - pick the shapes that generate (balls, abstract...) 
-
+- shaders for the objects on the sphere
+- skybox for the game
+- interactive main menu
 
