@@ -1,33 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/* This script populates the surface of a sphere with the object
+ * attached to the sphere. The number of objects on the planet can be defined.
+ * The height and width of the object are randomly changed for each object.
+ * The center of the object will be located on the surface of the sphere.
+ */
+
 public class populate_sphere : MonoBehaviour {
 
-	public GameObject building;
+	public GameObject surface_object;
 	public GameObject planet;
 
+	public int object_number = 200;
+
+
+	// at run time
 	public void Start () {
 
-		int building_number = 500;
-
-		for (int i = 0; i < building_number; i++) {
+		// create object_number of objects
+		for (int i = 0; i < object_number; i++) {
 			
 			// determine rotation and position of sphere
-			Vector3 spawnPosition = Random.onUnitSphere * ((planet.transform.localScale.x/2) + building.transform.localScale.y * 0.3f) + planet.transform.position;
+			Vector3 spawnPosition = Random.onUnitSphere * ((planet.transform.localScale.x/2) + surface_object.transform.localScale.y * 0.5f) + planet.transform.position;
 			Quaternion spawnRotation = Quaternion.identity;
 
 			// initatiate the object
-			GameObject newBuiding = Instantiate(building, spawnPosition, spawnRotation) as GameObject;
+			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
 
 			// transform the object
-			newBuiding.transform.LookAt(planet.transform);
-			newBuiding.transform.Rotate(-90, 0, 0);
+			newObject.transform.LookAt(planet.transform);
+			newObject.transform.Rotate(-90, 0, 0);
 
 
 			// randomly scale the size of the object
-			float width_scale =  Random.Range(-2F, 2F);
-			float height_scale = Random.Range (-2F, 2F);
-			newBuiding.transform.localScale += new Vector3(width_scale,height_scale  ,width_scale);
+			float width_scale =  Random.Range(-3F, 3F);
+			float height_scale = Random.Range (-1F, 1F);
+
+			newObject.transform.localScale += new Vector3(width_scale, height_scale, width_scale);
 			//newBuiding.transform.position -= new Vector3 (0, height_scale+1, 0);
 		}
 
