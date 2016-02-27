@@ -23,8 +23,8 @@ public class populate_sphere : MonoBehaviour {
 		for (int i = 0; i < object_number; i++) {
 			
 			// determine rotation and position of sphere
-			Vector3 spawnPosition = Random.onUnitSphere * ((planet.transform.localScale.x/2) + surface_object.transform.localScale.y * 0.5f) + planet.transform.position;
 			Quaternion spawnRotation = Quaternion.identity;
+			Vector3 spawnPosition = Random.onUnitSphere * ((planet.transform.localScale.x/2) + surface_object.transform.localScale.y * 0.5f) + planet.transform.position;
 
 			// initatiate the object
 			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
@@ -35,8 +35,8 @@ public class populate_sphere : MonoBehaviour {
 
 
 			// randomly scale the size of the object
-			float width_scale =  Random.Range(-3F, 3F);
-			float height_scale = Random.Range (-1F, 1F);
+			float width_scale =  Random.Range(-10F, 10F);
+			float height_scale = 0; //Random.Range (-1F, 1F);
 
 			newObject.transform.localScale += new Vector3(width_scale, height_scale, width_scale);
 			//newBuiding.transform.position -= new Vector3 (0, height_scale+1, 0);
