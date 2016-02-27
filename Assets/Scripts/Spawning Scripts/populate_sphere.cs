@@ -27,6 +27,16 @@ public class populate_sphere : MonoBehaviour {
 
 		// sound is not synchronized for the objects and some still arent moving
 
+		// set default colors
+		int color = 0; 
+		int numberColors = 5;
+		Vector4[]  colors = new Vector4[numberColors];
+		colors[0] =  new Vector4 (122/255.0f, 255/255.0f,0f,1f);
+		colors[1] =  new Vector4 (31/255.0f, 196/255.0f, 244/255.0f,1f);
+		colors[2] =  new Vector4 (0/255.0f, 61/255.0f, 244/255.0f,1f);
+		colors[3] =  new Vector4 (45/255.0f, 44/255.0f, 155/255.0f,1f);
+		colors[4] =  new Vector4 (0/255.0f, 116/255.0f, 188/255.0f,1f);
+
 
 		// create object_number of objects
 		for (int i = 0; i < object_number; i++) {
@@ -56,9 +66,11 @@ public class populate_sphere : MonoBehaviour {
 			/* SET THE STRETCH FREQUENCY */
 
 			// set the start and end frequencies for the cube to respond
-			CubeStretch stretch_component = newObject.GetComponent<CubeStretch>();
-			stretch_component.freq_begin = freq_start;
-			stretch_component.freq_end = freq_end;
+			if (newObject.GetComponent<CubeStretch> () != null) {
+				CubeStretch stretch_component = newObject.GetComponent<CubeStretch>();
+				stretch_component.freq_begin = freq_start;
+				stretch_component.freq_end = freq_end;
+			}
 
 			// increment the freq start and end
 			freq_start += freq_offset;
@@ -67,11 +79,10 @@ public class populate_sphere : MonoBehaviour {
 
 			/* SET THE COLOR */ 
 			Renderer objectRender = newObject.GetComponent<Renderer> ();
-			if (i % 2 == 0) {
-				objectRender.material.color = Color.cyan;
-			} else {
-				objectRender.material.color = Color.green;
-			}
+			objectRender.material.color = colors[color];
+
+			color++;
+			if (color == numberColors -1) color = 0;
 		}
 
 
