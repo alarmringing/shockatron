@@ -3,14 +3,22 @@ using System.Collections;
 
 public class CubeStretch : MonoBehaviour {
 
-	int numSamples = 1024;
-	AudioSource thisAudio;
-	float[] samples;
 
-	Vector3 boxScale;
+	// define variables for audio samples
+	private int numSamples = 1024;
+	private AudioSource thisAudio;
+	private float[] samples;
 
-	float totalSum;
-	float volume = 30f;
+	// set values for the volumes
+	private float totalSum;
+	private float volume = 30f;
+
+	// define a vector of the current boxes scale
+	private Vector3 boxScale;
+
+	public int freq_begin = 0;
+	public int freq_end = 10;
+
 
 	// Use this for initialization
 	void Start () {
@@ -26,19 +34,23 @@ public class CubeStretch : MonoBehaviour {
 
 		thisAudio.GetOutputData(samples, 0);
 
-		SetBoxScale(samples, 0, 300);
+		SetBoxScale(samples, freq_begin, freq_end);
 
 
 	}
 
+	// Set the box scale according to the frequency of the music
 	void SetBoxScale(float[] samples, int begin, int end) {
 
 		float squareSum = 0;
 
-		for(int i=begin; i < end; i++)
-		{
+		// for each of the frequencies
+		for(int i=begin; i < end; i++){
 			squareSum = samples[i]*samples[i];
 		}
+
+		// is it possible to make this movement slower?
+
 		float rms = Mathf.Sqrt(squareSum/(end-begin));
 		float totalOutput = Mathf.Clamp01(rms*volume);
 
