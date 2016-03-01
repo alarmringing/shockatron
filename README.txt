@@ -21,26 +21,30 @@ ACCOMPLISHED
 - objects changing in response to music
 - basic game design
 - sphere automatically populated with buildings for terrain
+- have user move along the sphere (faux gravity)
+- box outline shader (toon shader) 
+- prototype for the landscape
 
 
 WEEK GOALS
 -----------
 - generate linear path with balls generating along them
-- have user move along the sphere
-- box outline shader
+- fix user controls to be more smoothly flying
+- interactive main menu
+- user interactions
+- item generation and collection (path nd collisions)
+- fix cube animations
+- score tracking
 
  
 END GOALS
 --------
-- prototype for the landscape
 - different themes (lighting effects, maybe shapes)
 - scoring schemes
 - analyzing tempo/genre from songs
-- user interactions
 - score keeping and tutorial
 - what is the player -- look into journey esc games for character design 
 - pick the shapes that generate (balls, abstract...) 
 - shaders for the objects on the sphere
 - skybox for the game
-- interactive main menu
 
