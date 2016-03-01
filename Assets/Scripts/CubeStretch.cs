@@ -23,7 +23,9 @@ public class CubeStretch : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		thisAudio = gameObject.GetComponent<AudioSource>();
+		//thisAudio = gameObject.GetComponent<AudioSource>();
+		thisAudio = gameObject.GetComponentInParent<AudioSource>();
+
 		samples = new float[numSamples];
 		boxScale = transform.localScale;
 
@@ -35,8 +37,6 @@ public class CubeStretch : MonoBehaviour {
 		thisAudio.GetOutputData(samples, 0);
 
 		SetBoxScale(samples, freq_begin, freq_end);
-
-
 	}
 
 	// Set the box scale according to the frequency of the music
@@ -46,7 +46,7 @@ public class CubeStretch : MonoBehaviour {
 
 		// for each of the frequencies
 		for(int i=begin; i < end; i++){
-			squareSum = samples[i]*samples[i];
+			squareSum += samples[i]*samples[i];
 		}
 
 		// is it possible to make this movement slower?
@@ -56,6 +56,7 @@ public class CubeStretch : MonoBehaviour {
 
 		Debug.Log(totalOutput);
 		transform.localScale = new Vector3(boxScale.x, boxScale.y*totalOutput*5, boxScale.z);
+		//transform.position = new Vector3(transform.position.x,transform.position.y*totalOutput*5, transform.position.z);
 	}
 		
 }

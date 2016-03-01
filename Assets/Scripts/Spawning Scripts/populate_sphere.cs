@@ -16,7 +16,6 @@ public class populate_sphere : MonoBehaviour {
 	public int object_number = 200;
 	private int number_freq = 1024;
 
-
 	// at run time
 	public void Start () {
 
@@ -49,6 +48,9 @@ public class populate_sphere : MonoBehaviour {
 
 			// initatiate the object
 			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
+
+			// TODO: add child to planet as parent
+			//newObject.transform.parent = planet;
 
 			// transform the object
 			newObject.transform.LookAt(planet.transform);
