@@ -32,6 +32,16 @@ public class FauxGravity_controller : MonoBehaviour {
 
 		// get direction of movement from input
 		moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"), 1).normalized;
+
+		// if player hits escape, move to game end scene
+		if (Input.GetKeyDown(KeyCode.Escape) ){
+			Debug.Log("Pressed escape");
+			Application.LoadLevel ("GameEndScene");
+		}
+		if (Input.GetKeyDown(KeyCode.P)) {
+			Debug.Log("Requesting Pause");
+			Application.LoadLevel ("GameEndScene");
+		}
 	
 	}
 

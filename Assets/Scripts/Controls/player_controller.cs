@@ -34,11 +34,19 @@ public class player_controller : MonoBehaviour {
 		speed = Mathf.Clamp (speed, 0, maxSpeed);
 
 
-		//rigid.velocity += new Vector3 (turn, 0, forward);
-
 		// handle movement
 		transform.Translate (0, 0, speed/acceleration/5);
 		transform.Rotate (0, turn * turnSpeed * Time.deltaTime, 0);
+
+		// if player hits escape, move to game end scene
+		if (Input.GetKeyDown(KeyCode.Escape) ){
+			Debug.Log("Pressed escape");
+			Application.LoadLevel ("GameEndScene");
+		}
+		if (Input.GetKeyDown(KeyCode.P)) {
+			Debug.Log("Requesting Pauce");
+			Application.LoadLevel ("GameEndScene");
+		}
 	}
 		
 		

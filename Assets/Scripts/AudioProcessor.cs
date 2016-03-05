@@ -129,48 +129,42 @@ public class AudioProcessor : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (audioSource.isPlaying)
-		{
-			audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
-			computeAverages(spectrum);
+		if (audioSource.isPlaying) {
+			audioSource.GetSpectrumData (spectrum, 0, FFTWindow.BlackmanHarris);
+			computeAverages (spectrum);
 
-			if (callbacks != null)
-			{
-				foreach (AudioCallbacks callback in callbacks)
-				{
-					callback.onSpectrum(averages);
+			if (callbacks != null) {
+				foreach (AudioCallbacks callback in callbacks) {
+					callback.onSpectrum (averages);
 				}
 			}
 
 			/* calculate the value of the onset function in this frame */
 			float onset = 0;
-			for (int i = 0; i < nBand; i++)
-			{
-				float specVal = (float)System.Math.Max(-100.0f, 20.0f * (float)System.Math.Log10(averages[i]) + 160); // dB value of this band
+			for (int i = 0; i < nBand; i++) {
+				float specVal = (float)System.Math.Max (-100.0f, 20.0f * (float)System.Math.Log10 (averages [i]) + 160); // dB value of this band
 				specVal *= 0.025f;
-				float dbInc = specVal - spec[i]; // dB increment since last frame
-				spec[i] = specVal; // record this frome to use next time around
+				float dbInc = specVal - spec [i]; // dB increment since last frame
+				spec [i] = specVal; // record this frome to use next time around
 				onset += dbInc; // onset function is the sum of dB increments
 			}
 
-			onsets[now] = onset;
+			onsets [now] = onset;
 
 			/* update autocorrelator and find peak lag = current tempo */
-			auco.newVal(onset);
+			auco.newVal (onset);
 			// record largest value in (weighted) autocorrelation as it will be the tempo
 			float aMax = 0.0f;
 			int tempopd = 0;
 			//float[] acVals = new float[maxlag];
-			for (int i = 0; i < maxlag; ++i)
-			{
-				float acVal = (float)System.Math.Sqrt(auco.autoco(i));
-				if (acVal > aMax)
-				{
+			for (int i = 0; i < maxlag; ++i) {
+				float acVal = (float)System.Math.Sqrt (auco.autoco (i));
+				if (acVal > aMax) {
 					aMax = acVal;
 					tempopd = i;
 				}
 				// store in array backwards, so it displays right-to-left, in line with traces
-				acVals[maxlag - 1 - i] = acVal;
+				acVals [maxlag - 1 - i] = acVal;
 			}
 
 			/* calculate DP-ish function to update the best-score function */
@@ -179,71 +173,66 @@ public class AudioProcessor : MonoBehaviour
 			// weight can be varied dynamically with the mouse
 			alph = 100 * gThresh;
 			// consider all possible preceding beat times from 0.5 to 2.0 x current tempo period
-			for (int i = tempopd / 2; i < System.Math.Min(colmax, 2 * tempopd); ++i)
-			{
+			for (int i = tempopd / 2; i < System.Math.Min (colmax, 2 * tempopd); ++i) {
 				// objective function - this beat's cost + score to last beat + transition penalty
-				float score = onset + scorefun[(now - i + colmax) % colmax] - alph * (float)System.Math.Pow(System.Math.Log((float)i / (float)tempopd), 2);
+				float score = onset + scorefun [(now - i + colmax) % colmax] - alph * (float)System.Math.Pow (System.Math.Log ((float)i / (float)tempopd), 2);
 				// keep track of the best-scoring predecesor
-				if (score > smax)
-				{
+				if (score > smax) {
 					smax = score;
 					smaxix = i;
 				}
 			}
 
-			scorefun[now] = smax;
+			scorefun [now] = smax;
 			// keep the smallest value in the score fn window as zero, by subtracing the min val
-			float smin = scorefun[0];
+			float smin = scorefun [0];
 			for (int i = 0; i < colmax; ++i)
-				if (scorefun[i] < smin)
-					smin = scorefun[i];
+				if (scorefun [i] < smin)
+					smin = scorefun [i];
 			for (int i = 0; i < colmax; ++i)
-				scorefun[i] -= smin;
+				scorefun [i] -= smin;
 
 			/* find the largest value in the score fn window, to decide if we emit a blip */
-			smax = scorefun[0];
+			smax = scorefun [0];
 			smaxix = 0;
-			for (int i = 0; i < colmax; ++i)
-			{
-				if (scorefun[i] > smax)
-				{
-					smax = scorefun[i];
+			for (int i = 0; i < colmax; ++i) {
+				if (scorefun [i] > smax) {
+					smax = scorefun [i];
 					smaxix = i;
 				}
 			}
 
 			// dobeat array records where we actally place beats
-			dobeat[now] = 0;  // default is no beat this frame
+			dobeat [now] = 0;  // default is no beat this frame
 			++sinceLast;
 			// if current value is largest in the array, probably means we're on a beat
-			if (smaxix == now)
-			{
+			if (smaxix == now) {
 				//tapTempo();
 				// make sure the most recent beat wasn't too recently
-				if (sinceLast > tempopd / 4)
-				{
-					BroadcastMessage("onBeatDetection"); //broadcasts on beat detection
+				if (sinceLast > tempopd / 4) {
+					BroadcastMessage ("onBeatDetection"); //broadcasts on beat detection
 
-					if (callbacks != null)
-					{
-						foreach (AudioCallbacks callback in callbacks)
-						{
-							callback.onOnbeatDetected();
+					if (callbacks != null) {
+						foreach (AudioCallbacks callback in callbacks) {
+							callback.onOnbeatDetected ();
 						}
 					}
-					blipDelay[0] = 1;
+					blipDelay [0] = 1;
 					// record that we did actually mark a beat this frame
-					dobeat[now] = 1;
+					dobeat [now] = 1;
 					// reset counter of frames since last beat
 					sinceLast = 0;
 				}
 			}
 
 			/* update column index (for ring buffer) */
-			if (++now == colmax) now = 0;
+			if (++now == colmax)
+				now = 0;
 
 			//Debug.Log(System.Math.Round(60 / (tempopd * framePeriod)) + " bpm");
 			//Debug.Log(System.Math.Round(auco.avgBpm()) + " bpm");
+		} else {
+			Application.LoadLevel ("GameEndScene");
 		}
 	}
 

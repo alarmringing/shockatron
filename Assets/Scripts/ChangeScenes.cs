@@ -20,4 +20,5 @@ public class ChangeScenes : MonoBehaviour {
 	public void exit_game() {
 		Application.Quit ();
 	}
+		
 }
