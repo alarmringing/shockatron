@@ -5,14 +5,21 @@ public class StickStretcher : MonoBehaviour {
 
 	int numSamples = 1024;
 	AudioSource thisAudio;
+	/*
 	public GameObject Cube1;
 	public GameObject Cube2;
-	public GameObject Cube3;
-	public GameObject SurpriseParticle;
+	public GameObject Cube3;*/
+	//public GameObject SurpriseParticle;
+
+	public GameObject spectrumBox;
+
 	float[] samples;
-
+	float outputNum = 1024;
+	float numBoxes = 50;
+	GameObject[] spectrumBoxes;
 	Vector3 boxScale;
-
+	float maxStretch = 2f;
+	float radius = 10f;
 	float totalSum;
 	float volume = 30f;
 
@@ -21,45 +28,62 @@ public class StickStretcher : MonoBehaviour {
 
 		thisAudio = gameObject.GetComponent<AudioSource>();
 		samples = new float[numSamples];
-		boxScale = Cube1.transform.localScale;
+		SpawnBoxes();
+
+		//boxScale = Cube1.transform.localScale;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-		thisAudio.GetOutputData(samples, 0);
+		thisAudio.GetSpectrumData(samples, 0, FFTWindow.Hamming);
 
-		SetBoxScale(Cube1, samples, 0, 300);
-		SetBoxScale(Cube2, samples, 300, 700);
-		SetBoxScale(Cube3, samples, 700, 1024);
-
-		if(Cube3.transform.localScale.y >= boxScale.y) {
-			SpawnParticle();
-		}
-
-	}
-
-	void SetBoxScale(GameObject Obj, float[] samples, int begin, int end) {
-
-		float squareSum = 0;
-
-		for(int i=begin; i < end; i++)
+		float minValue = float.MaxValue;
+		for(int j=0; j<numSamples; j++)
 		{
-			squareSum = samples[i]*samples[i];
+			if(samples[j] < minValue) minValue = samples[j];
 		}
-		float rms = Mathf.Sqrt(squareSum/(end-begin));
-		float totalOutput = Mathf.Clamp01(rms*volume);
 
-		Debug.Log(totalOutput);
-		Obj.transform.localScale = new Vector3(boxScale.x, boxScale.y*totalOutput, boxScale.z);
+		if(spectrumBoxes[0]){
+			for(int i=0; i<numBoxes; i++) 
+			{
+				SetBoxScale(spectrumBoxes[i], samples, i);
+			}
+		}
+
 	}
 
+	void SpawnBoxes()
+	{
+		for (int i = 0;i < numBoxes; i++)
+		{
+			float angle = i * Mathf.PI * 2 / numBoxes;
+			Vector3 pos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+			GameObject thisCube = (GameObject)(Instantiate(spectrumBox, pos, Quaternion.identity));
+			//spectrumBoxes[i] = thisCube;
+			//Debug.Log("This box assigned as " + spectrumBoxes[i].ToString());
+		}
+		spectrumBoxes = GameObject.FindGameObjectsWithTag("SpectrumCube");
+	}
+
+	void SetBoxScale(GameObject Obj, float[] samples, int boxId) {
+
+		float avg = samples[boxId];
+		float stretchValue =  Mathf.Clamp01(avg) * maxStretch;
+		Vector3 previousScale = Obj.transform.localScale;
+
+		previousScale.y = Mathf.Lerp(previousScale.y, stretchValue * 40, Time.deltaTime * 30);
+		Obj.transform.localScale = previousScale;
+		Obj.transform.position = new Vector3(Obj.transform.position.x, Obj.transform.localScale.y/2, Obj.transform.position.z);
+	}
+
+	/*
 	void SpawnParticle()
 	{
 		Random.Range(-3,3);
 		GameObject newParticle = ((GameObject)(Instantiate(SurpriseParticle, new Vector3(0,4,0), new Quaternion())));
-	}
+	}*/
 }
 
 /*
