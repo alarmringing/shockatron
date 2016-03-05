@@ -5,9 +5,11 @@ public class BuildingAnimations : MonoBehaviour {
 
 	public GameObject planet;
 
-	bool buildingSpawned = false;
+	// controls for the buildings
 	GameObject[] buildings;
+	bool buildingSpawned = false;
 
+	// audio paramters
 	AudioSource thisAudio;
 	float[] samples;
 	int numSamples = 1024;
@@ -15,23 +17,18 @@ public class BuildingAnimations : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
 		thisAudio = gameObject.GetComponent<AudioSource>();
 		samples = new float[numSamples];
-
 	}
 
 	public void OnSpawnFinished()
 	{
 		buildingSpawned = true;
-		Debug.Log ("Spawn is finished!");
 		buildings = GameObject.FindGameObjectsWithTag ("building");
-		Debug.Log ("# of builngs is " + buildings.Length);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 		thisAudio.GetSpectrumData(samples, 0, FFTWindow.Hamming);
 
 		float minValue = float.MaxValue;
@@ -57,6 +54,10 @@ public class BuildingAnimations : MonoBehaviour {
 
 		previousScale.y = Mathf.Lerp(previousScale.y, stretchValue * 40, Time.deltaTime * 30);
 		Obj.transform.localScale = previousScale;
+
+		// change the box collider to the same scale
+		//BoxCollider buildingCollider = Obj.GetComponent<BoxCollider>();
+		//buildingCollider.size = previousScale;
 
 
 		//Vector3 sphereDirection =  (planet.transform.position - transform.position).normalized;
