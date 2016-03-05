@@ -88,7 +88,10 @@ public class populate_sphere : MonoBehaviour {
 			if (color == numberColors -1) color = 0;
 		}
 
+		BroadcastMessage ("OnSpawnFinished");
 
 	}
+		
+
 		
 }

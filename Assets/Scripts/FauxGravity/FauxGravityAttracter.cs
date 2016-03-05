@@ -37,9 +37,9 @@ public class FauxGravityAttracter : MonoBehaviour {
 		body_rb.AddForce(gravityUp * largeGravity);
 
 		// if get to far, apply additional force
-		if ((body.position - transform.position).sqrMagnitude > heightLimit*startingDistance){
+		/*if ((body.position - transform.position).sqrMagnitude > heightLimit*startingDistance){
 			body_rb.AddForce(gravityUp * heightLimit);
-		}
+		}*/
 
 		// deal with rotation (add current rotation to diff in rotations
 		Quaternion targetRotation = Quaternion.FromToRotation(bodyUp, gravityUp) * body.rotation;
