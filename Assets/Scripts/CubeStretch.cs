@@ -3,11 +3,15 @@ using System.Collections;
 
 public class CubeStretch : MonoBehaviour {
 
+	public GameObject AudioParent;
 
 	// define variables for audio samples
 	private int numSamples = 1024;
 	private AudioSource thisAudio;
 	private float[] samples;
+	public int freq_begin = 0;
+	public int freq_end = 10;
+
 
 	// set values for the volumes
 	private float totalSum;
@@ -16,15 +20,12 @@ public class CubeStretch : MonoBehaviour {
 	// define a vector of the current boxes scale
 	private Vector3 boxScale;
 
-	public int freq_begin = 0;
-	public int freq_end = 10;
 
 
 	// Use this for initialization
 	void Start () {
 
-		//thisAudio = gameObject.GetComponent<AudioSource>();
-		thisAudio = gameObject.GetComponentInParent<AudioSource>();
+		thisAudio = AudioParent.GetComponent<AudioSource>();
 
 		samples = new float[numSamples];
 		boxScale = transform.localScale;
@@ -35,7 +36,6 @@ public class CubeStretch : MonoBehaviour {
 	void Update () {
 
 		thisAudio.GetOutputData(samples, 0);
-
 		SetBoxScale(samples, freq_begin, freq_end);
 	}
 

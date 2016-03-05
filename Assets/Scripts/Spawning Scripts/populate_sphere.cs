@@ -50,7 +50,8 @@ public class populate_sphere : MonoBehaviour {
 			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
 
 			// TODO: add child to planet as parent
-			//newObject.transform.parent = planet;
+			//newObject.transform.parent = planet.transform;
+
 
 			// transform the object
 			newObject.transform.LookAt(planet.transform);

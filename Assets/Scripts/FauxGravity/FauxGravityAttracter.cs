@@ -16,7 +16,7 @@ public class FauxGravityAttracter : MonoBehaviour {
 
 	private bool found_start = false;
 	private float startingDistance;
-	public float heightLimit = 1.2f;
+	public float heightLimit = 1.01f;
 
 
 	public void Attract(Transform body) {
