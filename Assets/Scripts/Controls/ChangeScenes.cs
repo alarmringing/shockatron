@@ -10,7 +10,7 @@ public class ChangeScenes : MonoBehaviour {
 	}
 	public void play_dontStop() {
 		PlayerPrefs.SetInt ("currentScore", 0);
-		Application.LoadLevel ("Original Planet");
+		Application.LoadLevel ("M_Jackson Planet");
 	}
 	// loads demo 2
 	public void show_scores() {
