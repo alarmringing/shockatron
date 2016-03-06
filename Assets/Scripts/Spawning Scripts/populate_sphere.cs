@@ -17,6 +17,17 @@ public class populate_sphere : MonoBehaviour {
 	private int number_freq = 1024;
 	public float maxWidthScale; 
 
+	public bool setOutline = false;
+	public Vector4 defaultColor = new Vector4 (0, 0, 0, 255);
+	public int numberColors = 5;
+	private float colorAdjust = 255f;
+	public Vector4 color1  = new Vector4(122f, 255f, 0f, 255f);
+	public Vector4 color2  = new Vector4(31f, 196f, 244f, 255f);
+	public Vector4 color3  = new Vector4(0f, 61f, 244f, 255f);
+	public Vector4 color4  = new Vector4(45f, 44f, 155f, 255f);
+	public Vector4 color5  = new Vector4(0f, 116f, 188f, 255f);
+
+
 	// at run time
 	public void Start () {
 
@@ -24,13 +35,12 @@ public class populate_sphere : MonoBehaviour {
 
 		// set default colors
 		int color = 0; 
-		int numberColors = 5;
-		Vector4[]  colors = new Vector4[numberColors];
-		colors[0] =  new Vector4 (122/255.0f, 255/255.0f,0f,1f);
-		colors[1] =  new Vector4 (31/255.0f, 196/255.0f, 244/255.0f,1f);
-		colors[2] =  new Vector4 (0/255.0f, 61/255.0f, 244/255.0f,1f);
-		colors[3] =  new Vector4 (45/255.0f, 44/255.0f, 155/255.0f,1f);
-		colors[4] =  new Vector4 (0/255.0f, 116/255.0f, 188/255.0f,1f);
+		Vector4[]  colors = new Vector4[5];
+		colors [0] = color1 / colorAdjust; 
+		colors[1] =  color2 / colorAdjust;
+		colors[2] =  color3 / colorAdjust;
+		colors[3] =  color4 / colorAdjust;
+		colors[4] =  color5 / colorAdjust;
 
 
 		// create object_number of objects
@@ -65,9 +75,20 @@ public class populate_sphere : MonoBehaviour {
 
 			/* SET THE COLOR */ 
 			Renderer objectRender = newObject.GetComponent<Renderer> ();
-			//objectRender.material.color = colors[color];
-			objectRender.material.SetColor("_OutlineColor",colors[color]);
+			Vector4 outlineColor = defaultColor;
+			Vector4 fillColor = colors [color];
+			if (setOutline) {
+				outlineColor = fillColor;
+				fillColor = defaultColor;
+			} 
+			objectRender.material.SetColor("_OutlineColor",outlineColor);
+			objectRender.material.color = fillColor;
 
+			/*if (setOutline) {
+				objectRender.material.SetColor ("_OutlineColor", colors [color]);
+			} else {
+				objectRender.material.color = colors [color];
+			}*/
 
 			color++;
 			if (color == numberColors -1) color = 0;
