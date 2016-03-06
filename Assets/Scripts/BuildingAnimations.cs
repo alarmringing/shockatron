@@ -55,11 +55,14 @@ public class BuildingAnimations : MonoBehaviour {
 		previousScale.y = Mathf.Lerp(previousScale.y, stretchValue * 40, Time.deltaTime * 30);
 		Obj.transform.localScale = previousScale;
 
-		// change the box collider to the same scale
-		//BoxCollider buildingCollider = Obj.GetComponent<BoxCollider>();
+		/*// change the box collider to the same scale
+		Vector3 renderSize = Obj.GetComponent<Renderer>().bounds.size;
+		BoxCollider buildingCollider = Obj.GetComponent<BoxCollider>();
+		buildingCollider.size = renderSize;
+		buildingCollider.center = new Vector3 ((renderSize.x / 2),(renderSize.y / 2), (renderSize.z / 2));
 		//buildingCollider.size = previousScale;
 
-
+		*/
 		//Vector3 sphereDirection =  (planet.transform.position - transform.position).normalized;
 
 		//Obj.transform.position = Obj.transform.localPosition - sphereDirection * Obj.transform.localScale.y / 2;

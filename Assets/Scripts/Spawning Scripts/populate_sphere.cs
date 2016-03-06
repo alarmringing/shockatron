@@ -15,14 +15,10 @@ public class populate_sphere : MonoBehaviour {
 
 	public int object_number = 200;
 	private int number_freq = 1024;
+	public float maxWidthScale; 
 
 	// at run time
 	public void Start () {
-
-		// set the frequency bins 
-		int freq_offset = number_freq / object_number;
-		int freq_start = 0;
-		int freq_end = freq_offset - 1;
 
 		// sound is not synchronized for the objects and some still arent moving
 
@@ -45,14 +41,11 @@ public class populate_sphere : MonoBehaviour {
 			// determine rotation and position of sphere
 			Quaternion spawnRotation = Quaternion.identity;
 			Vector3 spawnPosition = Random.onUnitSphere * ((planet.transform.localScale.x/2) + surface_object.transform.localScale.y * 0.5f) + planet.transform.position;
+		
 
 			// initatiate the object
 			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
-
-			// TODO: add child to planet as parent
-			//newObject.transform.parent = planet.transform;
-
-
+		
 			// transform the object
 			newObject.transform.LookAt(planet.transform);
 			newObject.transform.Rotate(-90, 0, 0);
@@ -60,29 +53,21 @@ public class populate_sphere : MonoBehaviour {
 			/* RANDOMIZE THE WIDTH OF THE OBJECT */
 
 			// randomly scale the size of the object
-			float width_scale =  Random.Range(-10F, 10F);
+			float width_scale =  Random.Range(0, maxWidthScale);
 			float height_scale = 0; //Random.Range (-1F, 1F);
 			newObject.transform.localScale += new Vector3(width_scale, height_scale, width_scale);
 			//newBuiding.transform.position -= new Vector3 (0, height_scale+1, 0);
 
-
-			/* SET THE STRETCH FREQUENCY */
-
-			// set the start and end frequencies for the cube to respond
-			if (newObject.GetComponent<CubeStretch> () != null) {
-				CubeStretch stretch_component = newObject.GetComponent<CubeStretch>();
-				stretch_component.freq_begin = freq_start;
-				stretch_component.freq_end = freq_end;
-			}
-
-			// increment the freq start and end
-			freq_start += freq_offset;
-			freq_end += freq_offset;
+			// Move object towards sphere
+			Vector3 sphereDirection =  (newObject.transform.position - planet.transform.position).normalized;
+			newObject.transform.position -= sphereDirection * newObject.transform.localScale.y;
 
 
 			/* SET THE COLOR */ 
 			Renderer objectRender = newObject.GetComponent<Renderer> ();
-			objectRender.material.color = colors[color];
+			//objectRender.material.color = colors[color];
+			objectRender.material.SetColor("_OutlineColor",colors[color]);
+
 
 			color++;
 			if (color == numberColors -1) color = 0;
