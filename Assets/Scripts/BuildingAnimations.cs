@@ -69,4 +69,10 @@ public class BuildingAnimations : MonoBehaviour {
 
 	}
 
+	/*void ChangeBoxColor(GameObject Obj, float[] samples, int boxId) {
+
+
+
+	} */
+
 }
