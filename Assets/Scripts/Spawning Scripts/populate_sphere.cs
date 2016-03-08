@@ -74,11 +74,16 @@ public class populate_sphere : MonoBehaviour {
 			float width_scale =  Random.Range(0, maxWidthScale);
 			float height_scale = Random.Range (0F, maxHeightScale);
 			newObject.transform.localScale += new Vector3(width_scale, height_scale, width_scale);
-			//newBuiding.transform.position -= new Vector3 (0, height_scale+1, 0);
 
 			// Move object towards sphere
 			Vector3 sphereDirection =  (newObject.transform.position - planet.transform.position).normalized;
 			newObject.transform.position -= sphereDirection * newObject.transform.localScale.y;
+
+			// adjust the bounding box
+			//BoxCollider buildingCollider = newObject.GetComponent<BoxCollider>();
+			//Vector3 renderSize = newObject.GetComponent<Renderer>().bounds.size;
+			//buildingCollider.size = new Vector3(1,1,1);
+			//buildingCollider.size = new Vector3(renderSize.x, renderSize.y, renderSize.z);
 
 
 			/* SET THE COLOR */ 
