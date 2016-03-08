@@ -35,7 +35,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	void generateBall() 
 	{
 
-		Vector3 forwardDirection = player.transform.TransformDirection(new Vector3(0, -0.2f, 1f))*generateDist;
+		Vector3 forwardDirection = player.transform.TransformDirection(new Vector3(0, 0f, 1f))*generateDist;
 		Vector3 generatePos = player.transform.position + forwardDirection;
 		Debug.Log("original pos is " + player.transform.position);
 		Debug.Log("forward direction is " + forwardDirection.ToString());
