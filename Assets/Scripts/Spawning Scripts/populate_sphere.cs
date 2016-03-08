@@ -19,21 +19,21 @@ public class populate_sphere : MonoBehaviour {
 	public float maxHeightScale;
 
 	public bool setOutline = false;
-	public Color defaultColor;
+	//public Color defaultColor;
 	public int numberColors = 5;
-	//private float colorAdjust = 255f;
+	private float colorAdjust = 255f;
 
-	public Color color1;
-	public Color color2;
-	public Color color3;
-	public Color color4;
-	public Color color5;
-	//public Vector4 defaultColor = new Vector4 (0, 0, 0, 255);
-	//public Vector4 color1  = new Vector4(122f, 255f, 0f, 255f);
-	//public Vector4 color2  = new Vector4(31f, 196f, 244f, 255f);
-	//public Vector4 color3  = new Vector4(0f, 61f, 244f, 255f);
-	//public Vector4 color4  = new Vector4(45f, 44f, 155f, 255f);
-	//public Vector4 color5  = new Vector4(0f, 116f, 188f, 255f);
+	//public Color color1;
+	//public Color color2;
+	//public Color color3;
+	//public Color color4;
+	//public Color color5;
+	public Vector4 defaultColor = new Vector4 (0, 0, 0, 255);
+	public Vector4 color1  = new Vector4(122f, 255f, 0f, 255f);
+	public Vector4 color2  = new Vector4(31f, 196f, 244f, 255f);
+	public Vector4 color3  = new Vector4(0f, 61f, 244f, 255f);
+	public Vector4 color4  = new Vector4(45f, 44f, 155f, 255f);
+	public Vector4 color5  = new Vector4(0f, 116f, 188f, 255f);
 
 
 	// at run time
@@ -43,12 +43,12 @@ public class populate_sphere : MonoBehaviour {
 
 		// set default colors
 		int color = 0; 
-		Vector4[]  colors = new Vector4[5];
-		colors [0] = color1;
-		colors[1] =  color2;
-		colors[2] =  color3;
-		colors[3] =  color4;
-		colors[4] =  color5;
+		Color[]  colors = new Color[5];
+		colors [0] = color1/colorAdjust;
+		colors[1] =  color2/colorAdjust;
+		colors[2] =  color3/colorAdjust;
+		colors[3] =  color4/colorAdjust;
+		colors[4] =  color5/colorAdjust;
 
 
 		// create object_number of objects

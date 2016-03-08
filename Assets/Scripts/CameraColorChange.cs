@@ -9,8 +9,7 @@ public class CameraColorChange : MonoBehaviour,  AudioProcessor.AudioCallbacks {
 	public Color color2 = Color.white;
 
 	public float duration = 1.0f;
-	public float fadeTime = 0.1f;
-	public float screenTime = 0.1f;
+	public float screenTime = 0.05f;
 	private float lastBeat;
 
 	// Use this for initialization
@@ -21,6 +20,7 @@ public class CameraColorChange : MonoBehaviour,  AudioProcessor.AudioCallbacks {
 
 		AudioProcessor processor = FindObjectOfType<AudioProcessor>();
 		processor.addAudioCallback(this);
+
 	}
 
 	// Update is called once per frame
@@ -30,19 +30,15 @@ public class CameraColorChange : MonoBehaviour,  AudioProcessor.AudioCallbacks {
 		
 	public void onBeatDetection() 
 	{
-		flashScreen();
+		StartCoroutine (flashScreen ());
 	}
 
-	void flashScreen(){
+	IEnumerator flashScreen(){
 		Debug.Log("Flashing Screen");
-		float t = Mathf.PingPong(Time.time, duration) / duration;
-		camera.backgroundColor = Color.Lerp(color1, color2, t);
-		Debug.Log (t);
-
-
-		// ideally face back to original color after change to white
-
-
+		//float t = Mathf.PingPong(Time.time, duration) / duration;
+		camera.backgroundColor = Color.Lerp(color1, color2, 1);
+		yield return new WaitForSeconds(screenTime);
+		camera.backgroundColor = Color.Lerp(color1, color2, 0);
 
 
 	}
