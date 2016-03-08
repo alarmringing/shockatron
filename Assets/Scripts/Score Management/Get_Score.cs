@@ -17,7 +17,7 @@ public class Get_Score : MonoBehaviour {
 		Debug.Log (score);
 		scoreText.text = "Score: " + score.ToString();
 
-		PlayerPrefs.SetInt (scoreKey, 0);
+		// 
 
 	}
 		

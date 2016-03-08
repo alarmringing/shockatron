@@ -13,9 +13,7 @@ public class ScoreManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		score = PlayerPrefs.GetInt (scoreKey);
-		PlayerPrefs.SetInt (scoreKey, 0);
 		setScoreText ();
 	}
 
@@ -61,6 +59,7 @@ public class ScoreManager : MonoBehaviour {
 		}
 		setScoreText ();
 		PlayerPrefs.SetInt (scoreKey,score);
+		PlayerPrefs.Save();
 	}
 
 
