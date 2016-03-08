@@ -26,7 +26,6 @@ public class CubeStretch : MonoBehaviour {
 	void Start () {
 
 		thisAudio = AudioParent.GetComponent<AudioSource>();
-
 		samples = new float[numSamples];
 		boxScale = transform.localScale;
 
@@ -34,7 +33,7 @@ public class CubeStretch : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		Debug.Log("volume is " + thisAudio.volume);
 		thisAudio.GetOutputData(samples, 0);
 		SetBoxScale(samples, freq_begin, freq_end);
 	}
