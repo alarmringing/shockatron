@@ -13,10 +13,10 @@ public class ScoreManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		score = 0;
-		setScoreText ();
 
 		score = PlayerPrefs.GetInt (scoreKey);
+		PlayerPrefs.SetInt (scoreKey, 0);
+		setScoreText ();
 	}
 
 	void update (){
@@ -57,7 +57,7 @@ public class ScoreManager : MonoBehaviour {
 			Destroy(other.gameObject);
 		}
 		if (other.tag == "building") {
-			score -= 1;
+			score -= 10;
 		}
 		setScoreText ();
 		PlayerPrefs.SetInt (scoreKey,score);
