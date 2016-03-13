@@ -12,11 +12,13 @@ public class populate_sphere : MonoBehaviour {
 
 	public GameObject surface_object;
 	public GameObject planet;
+	public GameObject musicController_delay;
 
 	public int object_number = 200;
 	private int number_freq = 1024;
 	public float maxWidthScale; 
 	public float maxHeightScale;
+	Vector3[] ObjOriginPos;
 
 	public bool setOutline = false;
 	//public Color defaultColor;
@@ -35,9 +37,16 @@ public class populate_sphere : MonoBehaviour {
 	public Vector4 color4  = new Vector4(45f, 44f, 155f, 255f);
 	public Vector4 color5  = new Vector4(0f, 116f, 188f, 255f);
 
+	//NOTE was trying to have the buildings have different colorings depending on frequency levels. Isn't working now though
+	Vector4 beginColor = new Vector4(0f, 0f, 255f, 255f);
+	Vector4 endColor = new Vector4(0,255f,0,255f);
+
 
 	// at run time
 	public void Start () {
+		
+		//set this Array
+		ObjOriginPos = new Vector3[object_number];
 
 		// sound is not synchronized for the objects and some still arent moving
 
@@ -59,14 +68,14 @@ public class populate_sphere : MonoBehaviour {
 			// determine rotation and position of sphere
 			Quaternion spawnRotation = Quaternion.identity;
 			Vector3 spawnPosition = Random.onUnitSphere * ((planet.transform.localScale.x/2) + surface_object.transform.localScale.y * 0.5f) + planet.transform.position;
-		
+
 
 			// initatiate the object
 			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
 		
 			// transform the object
 			newObject.transform.LookAt(planet.transform);
-			newObject.transform.Rotate(-90, 0, 0);
+			newObject.transform.Rotate(90, 0, 0);
 
 			/* RANDOMIZE THE WIDTH OF THE OBJECT */
 
@@ -77,7 +86,10 @@ public class populate_sphere : MonoBehaviour {
 
 			// Move object towards sphere
 			Vector3 sphereDirection =  (newObject.transform.position - planet.transform.position).normalized;
-			newObject.transform.position -= sphereDirection * newObject.transform.localScale.y;
+			newObject.transform.position -= sphereDirection * newObject.transform.localScale.y/2;
+
+			//Save into array to Pass origin position to buildinganimations
+			ObjOriginPos[i] = newObject.transform.position;
 
 			// adjust the bounding box
 			//BoxCollider buildingCollider = newObject.GetComponent<BoxCollider>();
@@ -89,7 +101,9 @@ public class populate_sphere : MonoBehaviour {
 			/* SET THE COLOR */ 
 			Renderer objectRender = newObject.GetComponent<Renderer> ();
 			Vector4 outlineColor = defaultColor;
-			Vector4 fillColor = colors [color];
+			//Vector4 fillColor = colors [color];
+			Vector4 fillColor = Color.Lerp(beginColor,endColor,((float)i)/((float)object_number));
+
 			if (setOutline) {
 				outlineColor = fillColor;
 				fillColor = defaultColor;
@@ -102,7 +116,11 @@ public class populate_sphere : MonoBehaviour {
 			if (color == numberColors -1) color = 0;
 		}
 
-		BroadcastMessage ("OnSpawnFinished");
+		//if finished spawning
+		musicController_delay.GetComponent<BuildingAnimations>().OnSpawnFinished(ObjOriginPos);
+
+
+		//BroadcastMessage ("OnSpawnFinished");
 
 	}
 		

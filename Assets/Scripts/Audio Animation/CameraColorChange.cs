@@ -7,16 +7,16 @@ public class CameraColorChange : MonoBehaviour,  AudioProcessor.AudioCallbacks {
 	Camera camera;
 	public Color color1 = Color.black;
 	public Color color2 = Color.white;
-	public float screenTime = 0.05f;
+	public float fadeTime = 0.5f;
 
 	// Use this for initialization
 	void Start () {
 
 		camera = Camera.main;
-		camera.clearFlags = CameraClearFlags.SolidColor;
+		//camera.clearFlags = CameraClearFlags.SolidColor;
 
 		AudioProcessor processor = FindObjectOfType<AudioProcessor>();
-		processor.addAudioCallback(this);
+		//processor.addAudioCallback(this);
 
 	}
 
@@ -27,9 +27,13 @@ public class CameraColorChange : MonoBehaviour,  AudioProcessor.AudioCallbacks {
 		
 	public void onBeatDetection() 
 	{
-		StartCoroutine (flashScreen ());
+		/*
+		Debug.Log("Time to change screen! Time is " + Time.time);
+		camera.backgroundColor = color2; //Color.Lerp(color1, color2, 1);
+		StartCoroutine (fadeScreen (0.0f, fadeTime));*/
 	}
 
+	/*
 	IEnumerator flashScreen(){
 		//float t = Mathf.PingPong(Time.time, duration) / duration;
 		camera.backgroundColor = Color.Lerp(color1, color2, 1);
@@ -37,6 +41,18 @@ public class CameraColorChange : MonoBehaviour,  AudioProcessor.AudioCallbacks {
 		camera.backgroundColor = Color.Lerp(color1, color2, 0);
 
 
+	}*/
+
+	IEnumerator fadeScreen(float aValue, float aTime){
+		float alpha = camera.backgroundColor.a;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+		{
+			Color.Lerp(color2, color1, t);
+			Color newColor = Color.Lerp(color2, color1, t);;
+			//Debug.Log("new alpha is " + newColor.a);
+			camera.backgroundColor = newColor;
+			yield return null;
+		}
 	}
 
 	public void onOnbeatDetected()

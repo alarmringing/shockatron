@@ -12,6 +12,10 @@ public class BuildingAnimations : MonoBehaviour {
 	// audio paramters
 	AudioSource thisAudio;
 	float[] samples;
+	Vector3[] ObjOriginPos;
+	bool originPosSet = false;
+	float stretchIntensity = 50f;
+	float baseHeight = 25f;
 	int numSamples = 1024;
 	float maxStretch = 200f;
 
@@ -19,16 +23,30 @@ public class BuildingAnimations : MonoBehaviour {
 	void Start () {
 		thisAudio = gameObject.GetComponent<AudioSource>();
 		samples = new float[numSamples];
+
 	}
 
-	public void OnSpawnFinished()
-	{
-		buildingSpawned = true;
+	public void OnSpawnFinished(Vector3[] BuildingsPos)
+	{		
 		buildings = GameObject.FindGameObjectsWithTag ("building");
+		/*
+		for(int j=0; j<buildings.Length; j++) 
+		{
+			Debug.Log("J is " + j);
+			Debug.Log("buildings is " +  buildings[j].transform);
+
+			//Debug.Log("buildingSpawned is " + buildingSpawned + " and its pos is " + buildings[i].transform.position.ToString());
+			//ObjOriginPos[j] = buildings[j].transform.position;
+		}*/
+
+		ObjOriginPos = BuildingsPos;
+
+		buildingSpawned = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
 		thisAudio.GetSpectrumData(samples, 0, FFTWindow.Hamming);
 
 		float minValue = float.MaxValue;
@@ -38,9 +56,9 @@ public class BuildingAnimations : MonoBehaviour {
 		}
 
 		if(buildingSpawned){
-			for(int i=0; i<buildings.Length; i++) 
+			for(int j=0; j<buildings.Length; j++) 
 			{
-				SetBoxScale(buildings[i], samples, i);
+				SetBoxScale(buildings[j], samples, j);
 			}
 		}
 	
@@ -48,11 +66,11 @@ public class BuildingAnimations : MonoBehaviour {
 
 	void SetBoxScale(GameObject Obj, float[] samples, int boxId) {
 
-		float avg = samples[boxId];
+		float avg = samples[samples.Length/buildings.Length * boxId];
 		float stretchValue =  Mathf.Clamp01(avg) * maxStretch;
 		Vector3 previousScale = Obj.transform.localScale;
 
-		previousScale.y = Mathf.Lerp(previousScale.y, stretchValue * 40, Time.deltaTime * 30);
+		previousScale.y = Mathf.Lerp(previousScale.y, baseHeight + stretchValue * stretchIntensity, Time.deltaTime * 10);
 		Obj.transform.localScale = previousScale;
 
 		// change the box collider to the same scale
@@ -64,10 +82,13 @@ public class BuildingAnimations : MonoBehaviour {
 		//buildingCollider.size = previousScale;
 
 
-		//Vector3 sphereDirection =  (planet.transform.position - transform.position).normalized;
+		/*
+		Vector3 sphereDirection =  (Obj.transform.position - planet.transform.position).normalized;*/
 
-		//Obj.transform.position = Obj.transform.localPosition - sphereDirection * Obj.transform.localScale.y / 2;
 
+		Vector3 sphereDirection =  (ObjOriginPos[boxId] - planet.transform.position).normalized;
+		Obj.transform.position = ObjOriginPos[boxId] + sphereDirection * Obj.transform.localScale.y/2;
+		//Obj.transform.position -= sphereDirection * Obj.transform.localScale.y;
 	}
 
 	/*void ChangeBoxColor(GameObject Obj, float[] samples, int boxId) {

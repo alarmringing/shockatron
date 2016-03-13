@@ -4,6 +4,9 @@ using System.Collections;
 
 public class ScoreManager : MonoBehaviour {
 
+	//when eating coin generate this
+	public GameObject effect;
+
 	// create variable to increment score
 	public int score;
 
@@ -53,6 +56,8 @@ public class ScoreManager : MonoBehaviour {
 		if (other.tag == "Coin") {
 			score += 5;
 			Destroy(other.gameObject);
+			Debug.Log("ate ball, time is " + Time.time);
+			Instantiate(effect, transform.position, Quaternion.identity);
 		}
 		if (other.tag == "building") {
 			score -= 10;

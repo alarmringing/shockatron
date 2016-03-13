@@ -6,7 +6,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public Material colorChangeMat;
 	public GameObject ballToEat;
 	public GameObject player;
-	public float generateDist;
+	public float generateDist = 100f;
 	//float playerMoveSpeed = 4f;
 
 	// Use this for initialization
@@ -27,7 +27,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	public void onBeatDetection() 
 	{
-		Debug.Log("Beat detected");
+		Debug.Log("Generated ball! Time is " + Time.time);
 		colorChangeMat.color = Random.ColorHSV();
 		generateBall();
 	}
@@ -35,11 +35,11 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	void generateBall() 
 	{
 
-		Vector3 forwardDirection = player.transform.TransformDirection(new Vector3(0, 0f, 1f))*generateDist;
+		Vector3 forwardDirection = player.transform.TransformDirection(new Vector3(0, -player.transform.localScale.y*0.1f, 1f))*generateDist;
 		Vector3 generatePos = player.transform.position + forwardDirection;
-		Debug.Log("original pos is " + player.transform.position);
-		Debug.Log("forward direction is " + forwardDirection.ToString());
-		Debug.Log("New position si " + (generatePos).ToString());
+		//Debug.Log("original pos is " + player.transform.position);
+		//Debug.Log("forward direction is " + forwardDirection.ToString());
+		//Debug.Log("New position si " + (generatePos).ToString());
 		//transform.TransformDirection(forwardDirection);
 
 		Instantiate(ballToEat, generatePos, Quaternion.identity);

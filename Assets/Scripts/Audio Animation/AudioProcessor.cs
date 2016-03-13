@@ -210,7 +210,12 @@ public class AudioProcessor : MonoBehaviour
 				//tapTempo();
 				// make sure the most recent beat wasn't too recently
 				if (sinceLast > tempopd / 4) {
+
+					/*** IMPORTANT PART ***/
+					Debug.Log("Beat detected! coming from" + name);
 					BroadcastMessage ("onBeatDetection"); //broadcasts on beat detection
+
+
 
 					if (callbacks != null) {
 						foreach (AudioCallbacks callback in callbacks) {
@@ -232,7 +237,8 @@ public class AudioProcessor : MonoBehaviour
 			//Debug.Log(System.Math.Round(60 / (tempopd * framePeriod)) + " bpm");
 			//Debug.Log(System.Math.Round(auco.avgBpm()) + " bpm");
 		} else {
-			Application.LoadLevel ("GameEndScene");
+			//Question Why did you put this here?
+			//Application.LoadLevel ("GameEndScene");
 		}
 	}
 

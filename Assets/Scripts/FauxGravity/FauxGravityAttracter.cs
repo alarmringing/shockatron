@@ -10,8 +10,8 @@ using System.Collections;
 
 public class FauxGravityAttracter : MonoBehaviour {
 
-	public float gravity = -10;
-	private float largeGravity = -20;
+	public float gravity = -8;
+	private float largeGravity = -10;
 	public float rotation_speed = 50f;
 
 	private bool found_start = false;
