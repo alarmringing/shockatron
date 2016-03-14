@@ -14,7 +14,7 @@ public class BuildingAnimations : MonoBehaviour {
 	float[] samples;
 	Vector3[] ObjOriginPos;
 	bool originPosSet = false;
-	float stretchIntensity = 50f;
+	float stretchIntensity = 70f;
 	float baseHeight = 25f;
 	int numSamples = 1024;
 	float maxStretch = 200f;
@@ -66,8 +66,10 @@ public class BuildingAnimations : MonoBehaviour {
 
 	void SetBoxScale(GameObject Obj, float[] samples, int boxId) {
 
-		float avg = samples[samples.Length/buildings.Length * boxId];
-		float stretchValue =  Mathf.Clamp01(avg) * maxStretch;
+		int sampleId = (int)((samples.Length/(float)buildings.Length) * boxId);
+		//Debug.Log("sampleId for this boxId " + boxId + " is " + sampleId);
+		float avg = samples[sampleId];
+		float stretchValue =  Mathf.Sqrt(Mathf.Clamp01(avg) * maxStretch);
 		Vector3 previousScale = Obj.transform.localScale;
 
 		previousScale.y = Mathf.Lerp(previousScale.y, baseHeight + stretchValue * stretchIntensity, Time.deltaTime * 10);
