@@ -7,6 +7,8 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public GameObject ballToEat;
 	public GameObject player;
 	public float generateDist = 100f;
+	float leftRightSpan = 0.2f;
+	Vector3 lastBallPos;
 	//float playerMoveSpeed = 4f;
 
 	// Use this for initialization
@@ -14,6 +16,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		
 		AudioProcessor processor = FindObjectOfType<AudioProcessor>();
 		processor.addAudioCallback(this);
+		lastBallPos = player.transform.position;
 		generateDist = 100f;
 		//AudioProcessor processor = GetComponent<AudioProcessor>();
 		//processor.addAudioCallback(this);
@@ -34,9 +37,19 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	void generateBall() 
 	{
+		Vector3 generateDirection = new Vector3();
+		Vector3 globalDirection = new Vector3();
+		Vector3 generatePos = new Vector3();
 
-		Vector3 forwardDirection = player.transform.TransformDirection(new Vector3(0, -player.transform.localScale.y*0.1f, 1f))*generateDist;
-		Vector3 generatePos = player.transform.position + forwardDirection;
+		bool collideWithBuilding = true; //to start on while loop
+		while(collideWithBuilding) 
+		{
+			float randomLeftRight = Random.Range(-leftRightSpan/2, leftRightSpan/2);
+			generateDirection = new Vector3(randomLeftRight, -player.transform.localScale.y*0.15f, 1f).normalized;
+			globalDirection = player.transform.TransformDirection(generateDirection)*generateDist;
+			generatePos = player.transform.position + globalDirection;
+			collideWithBuilding = false; //for now, later will check if ball gets stuck inside building
+		}
 		//Debug.Log("original pos is " + player.transform.position);
 		//Debug.Log("forward direction is " + forwardDirection.ToString());
 		//Debug.Log("New position si " + (generatePos).ToString());
