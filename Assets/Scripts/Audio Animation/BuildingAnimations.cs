@@ -14,7 +14,8 @@ public class BuildingAnimations : MonoBehaviour {
 	float[] samples;
 	Vector3[] ObjOriginPos;
 	bool originPosSet = false;
-	float stretchIntensity = 70f;
+	float stretchIntensity = 30f;
+	float stretchSpeed = 10f;
 	float baseHeight = 25f;
 	int numSamples = 1024;
 	float maxStretch = 200f;
@@ -72,7 +73,7 @@ public class BuildingAnimations : MonoBehaviour {
 		float stretchValue =  Mathf.Sqrt(Mathf.Clamp01(avg) * maxStretch);
 		Vector3 previousScale = Obj.transform.localScale;
 
-		previousScale.y = Mathf.Lerp(previousScale.y, baseHeight + stretchValue * stretchIntensity, Time.deltaTime * 10);
+		previousScale.y = Mathf.Lerp(previousScale.y, baseHeight + stretchValue * stretchIntensity, Time.deltaTime * stretchSpeed);
 		Obj.transform.localScale = previousScale;
 
 		// change the box collider to the same scale

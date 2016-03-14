@@ -38,8 +38,8 @@ public class populate_sphere : MonoBehaviour {
 	public Vector4 color5  = new Vector4(0f, 116f, 188f, 255f);
 
 	//NOTE was trying to have the buildings have different colorings depending on frequency levels. Isn't working now though
-	Vector4 beginColor = new Vector4(0f, 0f, 255f, 255f);
-	Vector4 endColor = new Vector4(0,255f,0,255f);
+	Color endColor = new Color(0f, 0f, 1f, 1f);
+	Color beginColor = new Color(0,1f,0,1f);
 
 
 	// at run time
@@ -101,9 +101,13 @@ public class populate_sphere : MonoBehaviour {
 			/* SET THE COLOR */ 
 			Renderer objectRender = newObject.GetComponent<Renderer> ();
 			Vector4 outlineColor = defaultColor;
-			//Vector4 fillColor = colors [color];
-			Vector4 fillColor = Color.Lerp(beginColor,endColor,((float)i)/((float)object_number));
+			Vector4 fillColor = colors [color];
+			/*
+			float lerpAmount = ((float)i)/((float)object_number);
 
+			Vector4 fillColor = Color.Lerp(beginColor, endColor, lerpAmount);
+			Debug.Log("for index " + i + " and lerpAmount " + lerpAmount + " fillColor is " + fillColor.ToString());
+*/
 			if (setOutline) {
 				outlineColor = fillColor;
 				fillColor = defaultColor;
