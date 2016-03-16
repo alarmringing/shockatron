@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI; // use UI namespace
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour {
 
@@ -24,14 +25,17 @@ public class ScoreManager : MonoBehaviour {
 	string scoreKey = "currentScore";
 	string lifeKey = "currentLife";
 	string energyKey = "currentEnergy";
+	string buildingsKey = "buildingsRemaining";
+
 	int goalNum = 20; //number of bad buildings, for now
 
 	// Use this for initialization
 	void Start () {
 
 		PlayerPrefs.SetInt( scoreKey, 0); //set score to 0 every time for now
-		//PlayerPrefs.SetInt(lifeKey, 100);
-		//PlayerPrefs.SetInt(energyKey, 50);
+		PlayerPrefs.SetInt(lifeKey, 100);
+		PlayerPrefs.SetInt(energyKey, 50);
+		PlayerPrefs.SetInt(buildingsKey, goalNum);
 
 		score = 0;
 		//PlayerPrefs.GetInt (scoreKey); 
@@ -56,6 +60,11 @@ public class ScoreManager : MonoBehaviour {
 			isAttackMode =false;
 			Charge_normal.SetActive(true);
 			Charge_attack.SetActive(false);
+		}
+
+		// If deplete life, end the game
+		if (life <= 0) {
+			SceneManager.LoadScene ("GameEndScene");
 		}
 
 	}
@@ -123,6 +132,7 @@ public class ScoreManager : MonoBehaviour {
 				else //destroyed bad building, good!
 				{
 					goalNum -= 1;
+					PlayerPrefs.SetInt(buildingsKey, goalNum);
 				}					
 			}
 				
@@ -131,16 +141,7 @@ public class ScoreManager : MonoBehaviour {
 		PlayerPrefs.SetInt (scoreKey,score);
 		PlayerPrefs.Save();
 	}
-
-//	void OnTriggerLeave (Collider other) 
-//	{
-//		if (other.tag == "building") {
-//			score -= 10;
-//			//Instantiate(BuildingCollideEffect, other.position, Quaternion.identity);
-//			//BuildingCollideEffect.SetActive(false);
-//		}
-//	}
-
+		
 
 	void setScoreText(){
 		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nGoals: " + goalNum;

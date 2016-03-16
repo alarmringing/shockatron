@@ -31,14 +31,14 @@ public class FauxGravityAttracter : MonoBehaviour {
 		Vector3 bodyUp = body.up; /// direction body currently facing
 
 		Rigidbody body_rb = body.GetComponent<Rigidbody> ();
-
+		body_rb.AddForce(gravityUp * gravity);
 
 
 		// if get to far, apply additional force
 		if ((body.position - transform.position).sqrMagnitude < startingDistance){
 			//body_rb.AddForce(gravityUp * heightLimit);
 			// make body head towards planet (add force in direction from center of planet to player
-			body_rb.AddForce(gravityUp * gravity);
+
 		}
 
 		// deal with rotation (add current rotation to diff in rotations
