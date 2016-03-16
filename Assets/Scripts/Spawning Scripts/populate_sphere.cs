@@ -13,12 +13,15 @@ public class populate_sphere : MonoBehaviour {
 	public GameObject surface_object;
 	public GameObject planet;
 	public GameObject musicController_delay;
+	//public AudioSource white_noise;
 
-	public int object_number = 200;
+	public int good_object_number = 30;
+	public int bad_object_number = 5;
 	private int number_freq = 1024;
 	public float maxWidthScale; 
 	public float maxHeightScale;
-	Vector3[] ObjOriginPos;
+	Vector3[] GoodOriginPos;
+	Vector3[] BadOriginPos;
 
 	public bool setOutline = false;
 	//public Color defaultColor;
@@ -38,20 +41,20 @@ public class populate_sphere : MonoBehaviour {
 	public Vector4 color5  = new Vector4(0f, 116f, 188f, 255f);
 
 	//NOTE was trying to have the buildings have different colorings depending on frequency levels. Isn't working now though
-	Vector4 beginColor = new Vector4(0f, 0f, 255f, 255f);
-	Vector4 endColor = new Vector4(0,255f,0,255f);
+	Color endColor = new Color(0f, 0f, 1f, 1f);
+	Color beginColor = new Color(0,1f,0,1f);
 
 
 	// at run time
 	public void Start () {
 		
-		//set this Array
-		ObjOriginPos = new Vector3[object_number];
+		//set Arrays of original positions of buildings
+		GoodOriginPos = new Vector3[good_object_number];
+		BadOriginPos = new Vector3[bad_object_number];
 
 		// sound is not synchronized for the objects and some still arent moving
 
 		// set default colors
-		int color = 0; 
 		Color[]  colors = new Color[5];
 		colors [0] = color1/colorAdjust;
 		colors[1] =  color2/colorAdjust;
@@ -59,11 +62,26 @@ public class populate_sphere : MonoBehaviour {
 		colors[3] =  color4/colorAdjust;
 		colors[4] =  color5/colorAdjust;
 
+		SpawnBuildings("GoodBuilding", good_object_number, colors);
+		SpawnBuildings("BadBuilding", bad_object_number, colors);
 
-		// create object_number of objects
-		for (int i = 0; i < object_number; i++) {
 
-			/* CREATE NEW GAME OBJECT ON SURFACE OF SPHERE */
+		//if finished spawning
+		musicController_delay.GetComponent<BuildingAnimations>().OnSpawnFinished(GoodOriginPos, BadOriginPos);
+
+
+		//BroadcastMessage ("OnSpawnFinished");
+
+	}
+		
+	void SpawnBuildings(string tag, int buildingNum, Color[] colors)
+	{
+		int color = 0; 
+
+		// create good_object_number of objects
+		for (int i = 0; i < buildingNum; i++) {
+
+			/* CREATE NEW GOOD BUILDING ON SURFACE OF SPHERE */
 
 			// determine rotation and position of sphere
 			Quaternion spawnRotation = Quaternion.identity;
@@ -72,7 +90,10 @@ public class populate_sphere : MonoBehaviour {
 
 			// initatiate the object
 			GameObject newObject = Instantiate(surface_object, spawnPosition, spawnRotation) as GameObject;
-		
+
+			//tag as good building
+			newObject.tag = tag;
+
 			// transform the object
 			newObject.transform.LookAt(planet.transform);
 			newObject.transform.Rotate(90, 0, 0);
@@ -89,20 +110,18 @@ public class populate_sphere : MonoBehaviour {
 			newObject.transform.position -= sphereDirection * newObject.transform.localScale.y/2;
 
 			//Save into array to Pass origin position to buildinganimations
-			ObjOriginPos[i] = newObject.transform.position;
-
-			// adjust the bounding box
-			//BoxCollider buildingCollider = newObject.GetComponent<BoxCollider>();
-			//Vector3 renderSize = newObject.GetComponent<Renderer>().bounds.size;
-			//buildingCollider.size = new Vector3(1,1,1);
-			//buildingCollider.size = new Vector3(renderSize.x, renderSize.y, renderSize.z);
-
+			if(tag == "GoodBuilding") GoodOriginPos[i] = newObject.transform.position;
+			else
+			{
+				BadOriginPos[i] = newObject.transform.position;
+				newObject.GetComponent<AudioSource>().Play(); //play corrupted white noise for the bad ones
+			}
 
 			/* SET THE COLOR */ 
 			Renderer objectRender = newObject.GetComponent<Renderer> ();
 			Vector4 outlineColor = defaultColor;
-			//Vector4 fillColor = colors [color];
-			Vector4 fillColor = Color.Lerp(beginColor,endColor,((float)i)/((float)object_number));
+			Vector4 fillColor = colors [color];
+			//if(tag == "BadBuilding") fillColor = Color.red;
 
 			if (setOutline) {
 				outlineColor = fillColor;
@@ -115,15 +134,6 @@ public class populate_sphere : MonoBehaviour {
 			color++;
 			if (color == numberColors -1) color = 0;
 		}
-
-		//if finished spawning
-		musicController_delay.GetComponent<BuildingAnimations>().OnSpawnFinished(ObjOriginPos);
-
-
-		//BroadcastMessage ("OnSpawnFinished");
-
 	}
-		
-
 		
 }

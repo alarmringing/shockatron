@@ -6,7 +6,7 @@ public class ChangeScenes : MonoBehaviour {
 	// loads demo 1
 	public void play_tron() {
 		PlayerPrefs.SetInt ("currentScore", 0);
-		Application.LoadLevel ("Tron Planet");
+		Application.LoadLevel ("Tron Planet_jihee");
 	}
 	public void play_dontStop() {
 		PlayerPrefs.SetInt ("currentScore", 0);
