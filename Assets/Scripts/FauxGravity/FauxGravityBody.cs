@@ -10,10 +10,9 @@ public class FauxGravityBody : MonoBehaviour {
 
 	// Height limiting CONTROLS
 	private float startingDistance;
-	public float heightLimit = 2f;
-	public float minHeight = 10f;
+	public float heightLimit = 1.2f;
+	public float minHeight = 10;
 	private float maxHeight;
-
 
 	// Use this for initialization
 	void Start () {
@@ -32,7 +31,7 @@ public class FauxGravityBody : MonoBehaviour {
 
 		// If within the correct distance from the planet
 		float currentDistance = (planet.transform.position - transform.position).sqrMagnitude;
-		if ((currentDistance > minHeight) && (currentDistance < maxHeight)) {
+		if ((currentDistance < maxHeight) && (currentDistance > minHeight)) {
 			attractor.Attract (myTransform);
 		}
 
