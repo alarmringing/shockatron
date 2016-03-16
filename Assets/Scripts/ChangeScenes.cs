@@ -14,7 +14,7 @@ public class ChangeScenes : MonoBehaviour {
 	}
 	// loads demo 2
 	public void show_scores() {
-		Application.LoadLevel ("HighScores");
+		Application.LoadLevel ("Goals");
 	}
 	// loads demo 2
 	public void main_menu() {

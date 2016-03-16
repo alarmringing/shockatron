@@ -132,18 +132,18 @@ public class ScoreManager : MonoBehaviour {
 		PlayerPrefs.Save();
 	}
 
-	void OnTriggerLeave (Collider other) 
-	{
-		if (other.tag == "building") {
-			score -= 10;
-			//Instantiate(BuildingCollideEffect, other.position, Quaternion.identity);
-			//BuildingCollideEffect.SetActive(false);
-		}
-	}
+//	void OnTriggerLeave (Collider other) 
+//	{
+//		if (other.tag == "building") {
+//			score -= 10;
+//			//Instantiate(BuildingCollideEffect, other.position, Quaternion.identity);
+//			//BuildingCollideEffect.SetActive(false);
+//		}
+//	}
 
 
 	void setScoreText(){
-		scoreText.text = "Life: " + life.ToString() + "  Energy: " + energy.ToString() + " Goals " + goalNum;
+		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nGoals: " + goalNum;
 	}
 
 }

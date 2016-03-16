@@ -17,7 +17,7 @@ public class FauxGravity_controller : MonoBehaviour {
 	// set speed controls
 	public float testSpeed = 1f;
 	public float inputMoveSpeed = 0.8f;
-	public float moveSpeed = 70f;
+	public float moveSpeed = 80f;
 	private float jumpSpeed = 10f;
 	private Vector3 moveDirection;
 
