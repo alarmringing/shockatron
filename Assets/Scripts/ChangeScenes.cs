@@ -30,4 +30,8 @@ public class ChangeScenes : MonoBehaviour {
 		Application.Quit ();
 	}
 		
+	// controls volume throughout the game
+	public void volumne_control(float sliderValue){
+		AudioListener.volume = sliderValue;
+	}
 }
