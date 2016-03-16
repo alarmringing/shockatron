@@ -40,7 +40,7 @@ public class ScoreManager : MonoBehaviour {
 		score = 0;
 		//PlayerPrefs.GetInt (scoreKey); 
 		life = 100;
-		energy = 50f;
+		energy = 50;
 		setScoreText ();
 	}
 
@@ -64,38 +64,12 @@ public class ScoreManager : MonoBehaviour {
 
 		// If deplete life, end the game
 		if (life <= 0) {
+			PlayerPrefs.SetInt (lifeKey,life);
 			SceneManager.LoadScene ("GameEndScene");
 		}
 
 	}
 
-	void OnDisable(){
-		// make list of the 5 highest scores
-		int[] highScores = new int[5];
-		int testScore = score;
-
-		for (int i = 0; i < highScores.Length; i++){
-
-			//Get the highScore from 1 - 5
-			string highScoreKey = "HighScore"+(i+1).ToString();
-			int highScore = PlayerPrefs.GetInt(highScoreKey,0);
-
-			//if score is greater, store previous highScore
-			//Set new highScore
-			//set score to previous highScore, and try again
-			//Once score is greater, it will always be for the
-			//remaining list, so the top 5 will always be 
-			//updated
-			if(testScore > highScore){
-				int temp = highScore;
-				PlayerPrefs.SetInt (highScoreKey, score);
-				testScore = temp;
-				PlayerPrefs.Save();
-			}
-		}
-
-
-	}
 
 	void OnCollisionEnter( Collision other) {
 
@@ -139,12 +113,42 @@ public class ScoreManager : MonoBehaviour {
 		}
 		setScoreText ();
 		PlayerPrefs.SetInt (scoreKey,score);
+		PlayerPrefs.SetInt (lifeKey,life);
+		PlayerPrefs.SetFloat (energyKey,energy);
 		PlayerPrefs.Save();
 	}
 		
+	void OnDisable(){
+		// make list of the 5 highest scores
+		int[] highScores = new int[5];
+		int testScore = score;
 
+		for (int i = 0; i < highScores.Length; i++){
+
+			//Get the highScore from 1 - 5
+			string highScoreKey = "HighScore"+(i+1).ToString();
+			int highScore = PlayerPrefs.GetInt(highScoreKey,0);
+
+			//if score is greater, store previous highScore
+			//Set new highScore
+			//set score to previous highScore, and try again
+			//Once score is greater, it will always be for the
+			//remaining list, so the top 5 will always be 
+			//updated
+			if(testScore > highScore){
+				int temp = highScore;
+				PlayerPrefs.SetInt (highScoreKey, score);
+				testScore = temp;
+				PlayerPrefs.Save();
+			}
+		}
+
+
+	}
 	void setScoreText(){
 		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nGoals: " + goalNum;
 	}
+
+
 
 }

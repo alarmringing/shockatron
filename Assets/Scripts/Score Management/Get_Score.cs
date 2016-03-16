@@ -8,7 +8,7 @@ public class Get_Score : MonoBehaviour {
 	// variable to store the text for score
 	public Text scoreText;
 	public Text buildingText;
-	public Text failText;
+	public Text title;
 	public int score;
 	public int energy;
 	public int life;
@@ -25,24 +25,20 @@ public class Get_Score : MonoBehaviour {
 		energy = PlayerPrefs.GetInt (energyKey);
 		buildingsLeft = PlayerPrefs.GetInt(buildingsKey);
 
-		if (life < 0) {
-			buildingText.text = "";
-			scoreText.text = "";
-			failText.text = "The Music Destroyed You!\nTry again?";
-		} else {
-			Debug.Log (score);
-			scoreText.color = Color.cyan;
-			scoreText.text = "Score: " + (score * life / 100.0f).ToString ();
-			if (buildingsLeft == 0) {
-				buildingText.color = Color.cyan;
-			} else {
-				buildingText.color = new Vector4 (231f / 255f, 86f / 255f, 4f / 255f, 1f); 
-			}
-			buildingText.text = "Buildings Remaining: " + buildingsLeft.ToString ();
+		string gameMessage = "YOU WIN!";
+		if (life <= 0) {
+			gameMessage = "The Music Destroyed You!\nTry again?";
 		} 
 
+		Debug.Log (score);
+		scoreText.text = "Score: " + (score * life / 100.0f).ToString ();
+		if (buildingsLeft != 0) {
+			buildingText.color = new Vector4 (231f / 255f, 86f / 255f, 4f / 255f, 1f); 
+		}
+		buildingText.text = "Buildings Remaining: " + buildingsLeft.ToString ();
 
-		// 
+		title.text = gameMessage;
+
 
 	}
 		
