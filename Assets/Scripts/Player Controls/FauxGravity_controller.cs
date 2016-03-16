@@ -58,7 +58,6 @@ public class FauxGravity_controller : MonoBehaviour {
 	// rigid body so used fixed update
 	void FixedUpdate(){
 
-
 		// moves body in local space (transform converts the global direction into local)
 		body.MovePosition (body.position + transform.TransformDirection( moveDirection) * moveSpeed * Time.deltaTime);
 		// transforms the rotation of the object to match the direction of movement
