@@ -35,7 +35,8 @@ public class Get_Score : MonoBehaviour {
 				buildingText.color = new Vector4 (231f / 255f, 86f / 255f, 4f / 255f, 1f); 
 			}
 			buildingText.text = "Buildings Remaining: " + buildingsLeft.ToString ();
-		} else {
+		} 
+		else {
 
 			failText.text = "The Music Destroyed You!\nTry again?";
 		}
