@@ -15,9 +15,9 @@ public class FauxGravity_controller : MonoBehaviour {
 	private Rigidbody body;
 
 	// set speed controls
-	public float testSpeed = 1f;
 	public float inputMoveSpeed = 0.8f;
 	public float moveSpeed = 80f;
+	public float mouseMultiplier = 1f;
 	private float jumpSpeed = 10f;
 	private Vector3 moveDirection;
 	private int inverted;
@@ -36,8 +36,11 @@ public class FauxGravity_controller : MonoBehaviour {
 		if(Input.GetKey("space")) moveSpeed = 100f; //when attacking mode, faster
 		else moveSpeed = 70f; 
 
+		float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X") + Input.GetAxisRaw ("Horizontal");
+		float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));
+
 		// get direction of movement from input
-		moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal")*inputMoveSpeed, Input.GetAxisRaw ("Vertical")*inputMoveSpeed*inverted, 1f).normalized;
+		moveDirection = new Vector3 (horizontalInput*inputMoveSpeed, verticalInput*inputMoveSpeed, 1f).normalized;
 
 		// if player hits escape, move to game end scene
 		if (Input.GetKeyDown(KeyCode.Escape) ){
@@ -59,10 +62,6 @@ public class FauxGravity_controller : MonoBehaviour {
 		body.MovePosition (body.position + transform.TransformDirection( moveDirection) * moveSpeed * Time.deltaTime);
 		GetComponentInChildren<MeshRenderer>().transform.localRotation = Quaternion.Lerp(GetComponentInChildren<MeshRenderer>().transform.localRotation, Quaternion.LookRotation(moveDirection), Time.deltaTime*10); //rotate towards movement
 
-		if (Input.GetKeyDown(KeyCode.Space)){
-			Vector3 jump = new Vector3 (0, jumpSpeed, 0);
-			body.velocity += transform.TransformDirection (jump);
-		}
 
 
 	}

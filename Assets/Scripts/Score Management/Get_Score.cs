@@ -25,7 +25,11 @@ public class Get_Score : MonoBehaviour {
 		energy = PlayerPrefs.GetInt (energyKey);
 		buildingsLeft = PlayerPrefs.GetInt(buildingsKey);
 
-		if (life > 0) {
+		if (life < 0) {
+			buildingText.text = "";
+			scoreText.text = "";
+			failText.text = "The Music Destroyed You!\nTry again?";
+		} else {
 			Debug.Log (score);
 			scoreText.color = Color.cyan;
 			scoreText.text = "Score: " + (score * life / 100.0f).ToString ();
@@ -36,11 +40,7 @@ public class Get_Score : MonoBehaviour {
 			}
 			buildingText.text = "Buildings Remaining: " + buildingsLeft.ToString ();
 		} 
-		if (life <= 0) {
-			buildingText.text = "";
-			scoreText.text = "";
-			failText.text = "The Music Destroyed You!\nTry again?";
-		}
+
 
 		// 
 
