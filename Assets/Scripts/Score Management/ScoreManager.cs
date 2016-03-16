@@ -20,6 +20,10 @@ public class ScoreManager : MonoBehaviour {
 	int life;
 	float energy; //will be a bar
 
+	// text to flash the score changes
+	public Text scoreIndicator;
+	public float displayDelay = 0.3f;
+
 	// variable to store the text for score
 	public Text scoreText;
 	string scoreKey = "currentScore";
@@ -31,7 +35,7 @@ public class ScoreManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		// set initial conditions 
 		PlayerPrefs.SetInt( scoreKey, 0); //set score to 0 every time for now
 		PlayerPrefs.SetInt(lifeKey, 100);
 		PlayerPrefs.SetInt(energyKey, 50);
@@ -42,6 +46,10 @@ public class ScoreManager : MonoBehaviour {
 		life = 100;
 		energy = 50;
 		setScoreText ();
+
+		scoreIndicator.text = "";
+
+
 	}
 
 	void Update (){
@@ -80,7 +88,9 @@ public class ScoreManager : MonoBehaviour {
 			energy += 2f;
 			Destroy(other.gameObject);
 			Debug.Log("ate ball, time is " + Time.time);
+			StartCoroutine(displayScore("+5!")); // display change in score
 			Instantiate(CoinEateffect, transform.position, Quaternion.identity);
+
 		}
 		if (other.gameObject.tag == "GoodBuilding" || other.gameObject.tag == "BadBuilding") {
 
@@ -89,8 +99,11 @@ public class ScoreManager : MonoBehaviour {
 				score -= 10;
 				life -= 10;
 				Debug.Log("Hitting building now");
+				StartCoroutine(displayScore("Watch where you're going\n-10!")); // display change in score
 				BuildingCollideEffect.SetActive(true);
 				//Instantiate(BuildingCollideEffect, transform.position, Quaternion.identity);
+
+
 			}
 			else //is attack mode
 			{
@@ -101,11 +114,13 @@ public class ScoreManager : MonoBehaviour {
 				{
 					Debug.Log("Hit a good building");
 					life -= 30;
-					Instantiate(BuildingDestroyEffect, transform.position, Quaternion.identity);
+					StartCoroutine(displayScore("Wrong Building!\n-30!")); // display change in score
+					//Instantiate(BuildingDestroyEffect, transform.position, Quaternion.identity);
 				}
 				else //destroyed bad building, good!
 				{
 					goalNum -= 1;
+					StartCoroutine(displayScore("Keeping the Beat!")); // display change in score
 					PlayerPrefs.SetInt(buildingsKey, goalNum);
 				}					
 			}
@@ -117,7 +132,16 @@ public class ScoreManager : MonoBehaviour {
 		PlayerPrefs.SetFloat (energyKey,energy);
 		PlayerPrefs.Save();
 	}
-		
+
+	// display text for certain amount of time (in center of screen)
+	IEnumerator displayScore(string display){
+
+		scoreIndicator.text = display;
+		yield return new WaitForSeconds(displayDelay);
+		scoreIndicator.text = "";
+	}
+
+
 	void OnDisable(){
 		// make list of the 5 highest scores
 		int[] highScores = new int[5];
