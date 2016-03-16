@@ -18,17 +18,17 @@ public class FauxGravity_controller : MonoBehaviour {
 	public float inputMoveSpeed = 0.8f;
 	public float moveSpeed = 80f;
 	public float mouseMultiplier = 1f;
-	private float jumpSpeed = 10f;
 	private Vector3 moveDirection;
 	private int inverted;
+
 
 
 	// Use this for initialization
 	void Start () {
 		body = GetComponent <Rigidbody> ();
 		inverted = PlayerPrefs.GetInt ("inversion");
-	}
 
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -58,10 +58,11 @@ public class FauxGravity_controller : MonoBehaviour {
 	// rigid body so used fixed update
 	void FixedUpdate(){
 
+
 		// moves body in local space (transform converts the global direction into local)
 		body.MovePosition (body.position + transform.TransformDirection( moveDirection) * moveSpeed * Time.deltaTime);
+		// transforms the rotation of the object to match the direction of movement
 		GetComponentInChildren<MeshRenderer>().transform.localRotation = Quaternion.Lerp(GetComponentInChildren<MeshRenderer>().transform.localRotation, Quaternion.LookRotation(moveDirection), Time.deltaTime*10); //rotate towards movement
-
 
 
 	}

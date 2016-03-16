@@ -49,7 +49,6 @@ public class ScoreManager : MonoBehaviour {
 
 		scoreIndicator.text = "";
 
-
 	}
 
 	void Update (){
@@ -99,10 +98,9 @@ public class ScoreManager : MonoBehaviour {
 				score -= 10;
 				life -= 10;
 				Debug.Log("Hitting building now");
-				StartCoroutine(displayScore("Watch where you're going\n-10!")); // display change in score
-				BuildingCollideEffect.SetActive(true);
+				StartCoroutine(displayScore("Ouch!\n-10!")); // display change in score
+				//BuildingCollideEffect.SetActive(true);
 				//Instantiate(BuildingCollideEffect, transform.position, Quaternion.identity);
-
 
 			}
 			else //is attack mode
@@ -142,33 +140,33 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 
-	void OnDisable(){
-		// make list of the 5 highest scores
-		int[] highScores = new int[5];
-		int testScore = score;
-
-		for (int i = 0; i < highScores.Length; i++){
-
-			//Get the highScore from 1 - 5
-			string highScoreKey = "HighScore"+(i+1).ToString();
-			int highScore = PlayerPrefs.GetInt(highScoreKey,0);
-
-			//if score is greater, store previous highScore
-			//Set new highScore
-			//set score to previous highScore, and try again
-			//Once score is greater, it will always be for the
-			//remaining list, so the top 5 will always be 
-			//updated
-			if(testScore > highScore){
-				int temp = highScore;
-				PlayerPrefs.SetInt (highScoreKey, score);
-				testScore = temp;
-				PlayerPrefs.Save();
-			}
-		}
-
-
-	}
+//	void OnDisable(){
+//		// make list of the 5 highest scores
+//		int[] highScores = new int[5];
+//		int testScore = score;
+//
+//		for (int i = 0; i < highScores.Length; i++){
+//
+//			//Get the highScore from 1 - 5
+//			string highScoreKey = "HighScore"+(i+1).ToString();
+//			int highScore = PlayerPrefs.GetInt(highScoreKey,0);
+//
+//			//if score is greater, store previous highScore
+//			//Set new highScore
+//			//set score to previous highScore, and try again
+//			//Once score is greater, it will always be for the
+//			//remaining list, so the top 5 will always be 
+//			//updated
+//			if(testScore > highScore){
+//				int temp = highScore;
+//				PlayerPrefs.SetInt (highScoreKey, score);
+//				testScore = temp;
+//				PlayerPrefs.Save();
+//			}
+//		}
+//
+//
+//	}
 	void setScoreText(){
 		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nOffbeat Buildings: " + goalNum;
 	}

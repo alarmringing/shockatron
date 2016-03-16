@@ -10,21 +10,11 @@ using System.Collections;
 
 public class FauxGravityAttracter : MonoBehaviour {
 
-	public float gravity = -8;
+	public float gravity = -50;
 	public float rotation_speed = 50f;
-
-	private bool found_start = false;
-	private float startingDistance;
-	public float heightLimit = 1.001f;
 
 
 	public void Attract(Transform body) {
-
-		// set starting distance
-		if (found_start == false) {
-			startingDistance = (body.position - transform.position).sqrMagnitude;
-			found_start = true;
-		}
 
 		// wanteed body to be facing towards gravity up
 		Vector3 gravityUp = (body.position - transform.position).normalized;
@@ -33,13 +23,6 @@ public class FauxGravityAttracter : MonoBehaviour {
 		Rigidbody body_rb = body.GetComponent<Rigidbody> ();
 		body_rb.AddForce(gravityUp * gravity);
 
-
-		// if get to far, apply additional force
-		if ((body.position - transform.position).sqrMagnitude < startingDistance){
-			//body_rb.AddForce(gravityUp * heightLimit);
-			// make body head towards planet (add force in direction from center of planet to player
-
-		}
 
 		// deal with rotation (add current rotation to diff in rotations
 		Quaternion targetRotation = Quaternion.FromToRotation(bodyUp, gravityUp) * body.rotation;
