@@ -20,6 +20,10 @@ public class ChangeScenes : MonoBehaviour {
 	public void main_menu() {
 		Application.LoadLevel ("MainScreen");
 	}
+	// load any scene by string
+	public void load_scene(string SceneName){
+		Application.LoadLevel (SceneName);
+	}
 
 	// exits the game
 	public void exit_game() {
