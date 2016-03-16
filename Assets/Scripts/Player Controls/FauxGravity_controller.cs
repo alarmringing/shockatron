@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 
 
 /* 
@@ -20,11 +20,13 @@ public class FauxGravity_controller : MonoBehaviour {
 	public float moveSpeed = 80f;
 	private float jumpSpeed = 10f;
 	private Vector3 moveDirection;
+	private int inverted;
 
 
 	// Use this for initialization
 	void Start () {
 		body = GetComponent <Rigidbody> ();
+		inverted = PlayerPrefs.GetInt ("inversion");
 	}
 
 
@@ -35,16 +37,16 @@ public class FauxGravity_controller : MonoBehaviour {
 		else moveSpeed = 70f; 
 
 		// get direction of movement from input
-		moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal")*inputMoveSpeed, Input.GetAxisRaw ("Vertical")*inputMoveSpeed, 1f).normalized;
+		moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal")*inputMoveSpeed, Input.GetAxisRaw ("Vertical")*inputMoveSpeed*inverted, 1f).normalized;
 
 		// if player hits escape, move to game end scene
 		if (Input.GetKeyDown(KeyCode.Escape) ){
 			Debug.Log("Pressed escape");
-			Application.LoadLevel ("GameEndScene");
+			SceneManager.LoadScene ("GameEndScene");
 		}
 		if (Input.GetKeyDown(KeyCode.P)) {
 			Debug.Log("Requesting Pause");
-			Application.LoadLevel ("GameEndScene");
+			SceneManager.LoadScene ("GameEndScene");
 		}
 	
 	}

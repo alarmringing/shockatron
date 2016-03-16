@@ -35,4 +35,11 @@ public class ChangeScenes : MonoBehaviour {
 	public void volumne_control(float sliderValue){
 		AudioListener.volume = sliderValue;
 	}
+
+	// controls the inversion of the y axis on loading the game
+	public void toggle_inversion(bool toggleSelected){
+
+		int invert = (toggleSelected) ? (-1) : (1);
+		PlayerPrefs.SetInt ("inversion", invert);
+	}
 }

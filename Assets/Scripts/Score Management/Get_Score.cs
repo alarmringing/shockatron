@@ -36,8 +36,9 @@ public class Get_Score : MonoBehaviour {
 			}
 			buildingText.text = "Buildings Remaining: " + buildingsLeft.ToString ();
 		} 
-		else {
-
+		if (life <= 0) {
+			buildingText.text = "";
+			scoreText.text = "";
 			failText.text = "The Music Destroyed You!\nTry again?";
 		}
 
