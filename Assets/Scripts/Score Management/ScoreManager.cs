@@ -146,7 +146,7 @@ public class ScoreManager : MonoBehaviour {
 
 	}
 	void setScoreText(){
-		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nGoals: " + goalNum;
+		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nOffbeat Buildings: " + goalNum;
 	}
 
 
