@@ -30,7 +30,6 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	public void onBeatDetection() 
 	{
-		Debug.Log("Generated ball! Time is " + Time.time);
 		colorChangeMat.color = Random.ColorHSV();
 		generateBall();
 	}

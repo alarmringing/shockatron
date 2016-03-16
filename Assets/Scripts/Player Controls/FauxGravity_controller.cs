@@ -17,7 +17,7 @@ public class FauxGravity_controller : MonoBehaviour {
 	// set speed controls
 	public float testSpeed = 1f;
 	public float inputMoveSpeed = 0.8f;
-	public float moveSpeed = 100f;
+	public float moveSpeed = 70f;
 	private float jumpSpeed = 10f;
 	private Vector3 moveDirection;
 
@@ -30,6 +30,9 @@ public class FauxGravity_controller : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		if(Input.GetKey("space")) moveSpeed = 100f; //when attacking mode, faster
+		else moveSpeed = 70f; 
 
 		// get direction of movement from input
 		moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal")*inputMoveSpeed, Input.GetAxisRaw ("Vertical")*inputMoveSpeed, 1f).normalized;
