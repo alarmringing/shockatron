@@ -12,6 +12,8 @@ public class ScoreManager : MonoBehaviour {
 	public GameObject Charge_normal;
 	public GameObject Charge_attack;
 
+
+
 	// whether attacking mode or not
 	bool isAttackMode;
 
@@ -48,6 +50,10 @@ public class ScoreManager : MonoBehaviour {
 		setScoreText ();
 
 		scoreIndicator.text = "";
+
+		// load audioclip
+		//AudioSource[] soundEffects = GetComponents<AudioSource>();
+		//buildingExplode = (AudioClip) Resources.Load("Audio/Building_Explode.wav");
 
 	}
 
@@ -109,6 +115,8 @@ public class ScoreManager : MonoBehaviour {
 				//Destroy(other.gameObject); //destroy that other building
 				other.gameObject.SetActive(false);
 
+
+
 				if(other.gameObject.tag == "GoodBuilding")  //oops
 				{
 					Debug.Log("Hit a good building");
@@ -120,6 +128,7 @@ public class ScoreManager : MonoBehaviour {
 				{
 					goalNum -= 1;
 					StartCoroutine(displayScore("Keeping the Beat!")); // display change in score
+					StartCoroutine(increaseVolume()); // increase volume
 					PlayerPrefs.SetInt(buildingsKey, goalNum);
 				}					
 			}
@@ -140,7 +149,16 @@ public class ScoreManager : MonoBehaviour {
 		scoreIndicator.text = "";
 	}
 
+	IEnumerator increaseVolume(){
 
+		AudioListener.volume *= 5;
+		yield return new WaitForSeconds(.5f);
+		AudioListener.volume /= 2;
+	}
+
+	void setScoreText(){
+		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nOffbeat Buildings: " + goalNum;
+	}
 //	void OnDisable(){
 //		// make list of the 5 highest scores
 //		int[] highScores = new int[5];
@@ -168,9 +186,7 @@ public class ScoreManager : MonoBehaviour {
 //
 //
 //	}
-	void setScoreText(){
-		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nOffbeat Buildings: " + goalNum;
-	}
+
 
 
 

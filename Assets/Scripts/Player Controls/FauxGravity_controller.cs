@@ -25,7 +25,6 @@ public class FauxGravity_controller : MonoBehaviour {
 	private int inverted;
 
 
-
 	// Use this for initialization
 	void Start () {
 		body = GetComponent <Rigidbody> ();
@@ -51,7 +50,7 @@ public class FauxGravity_controller : MonoBehaviour {
 		//float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));
 		//sorry, disabilg mouse for now feels awkward
 		float horizontalInput = Input.GetAxisRaw ("Horizontal");
-		float verticalInput = Input.GetAxisRaw ("Vertical");
+		float verticalInput = inverted*Input.GetAxisRaw ("Vertical");
 
 		// get direction of movement from input
 		moveDirection = new Vector3 (horizontalInput*inputMoveSpeed, verticalInput*inputMoveSpeed, 1f).normalized;

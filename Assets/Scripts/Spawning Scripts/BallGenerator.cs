@@ -10,7 +10,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	float leftRightSpan = 0.2f;
 	Vector3 lastBallPos;
 	//float playerMoveSpeed = 4f;
-	private int ballCount; 
+//	private int ballCount; 
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +21,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		generateDist = 100f;
 		//AudioProcessor processor = GetComponent<AudioProcessor>();
 		//processor.addAudioCallback(this);
-		ballCount = 0;
+//		ballCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -58,15 +58,15 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		//transform.TransformDirection(forwardDirection);
 
 
-		GameObject newBall = (GameObject) Instantiate(ballToEat, generatePos, Quaternion.identity);
+		Instantiate(ballToEat, generatePos, Quaternion.identity);
 
 
 		/* SET THE COLOR */ // makes each object unique to change the color
-		newBall.name = "ball_"+ballCount.ToString();
-		ballCount++;
-		Renderer objectRender = newBall.GetComponent<Renderer> ();
-		objectRender.material.color = Random.ColorHSV ();
-		Debug.Log("---CHANGED COLOR---");
+//		newBall.name = "ball_"+ballCount.ToString();
+//		ballCount++;
+//		Renderer objectRender = newBall.GetComponent<Renderer> ();
+//		objectRender.material.color = Random.ColorHSV ();
+//		Debug.Log("---CHANGED COLOR---");
 
 
 	}
