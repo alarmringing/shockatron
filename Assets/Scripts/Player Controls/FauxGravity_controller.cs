@@ -36,8 +36,11 @@ public class FauxGravity_controller : MonoBehaviour {
 		if(Input.GetKey("space")) moveSpeed = 100f; //when attacking mode, faster
 		else moveSpeed = 70f; 
 
-		float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X") + Input.GetAxisRaw ("Horizontal");
-		float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));
+		//float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X") + Input.GetAxisRaw ("Horizontal");
+		//float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));
+		//sorry, disabilg mouse for now feels awkward
+		float horizontalInput = Input.GetAxisRaw ("Horizontal");
+		float verticalInput = Input.GetAxisRaw ("Vertical");
 
 		// get direction of movement from input
 		moveDirection = new Vector3 (horizontalInput*inputMoveSpeed, verticalInput*inputMoveSpeed, 1f).normalized;
