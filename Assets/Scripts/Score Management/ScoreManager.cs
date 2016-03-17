@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour {
 	public GameObject Charge_normal;
 	public GameObject Charge_attack;
 
-
+	AudioSource buildingExplode; 
 
 	// whether attacking mode or not
 	bool isAttackMode;
@@ -52,8 +52,8 @@ public class ScoreManager : MonoBehaviour {
 		scoreIndicator.text = "";
 
 		// load audioclip
-		//AudioSource[] soundEffects = GetComponents<AudioSource>();
-		//buildingExplode = (AudioClip) Resources.Load("Audio/Building_Explode.wav");
+		AudioSource[] soundEffects = GetComponents<AudioSource>();
+		buildingExplode = soundEffects [1]; 
 
 	}
 
@@ -100,6 +100,7 @@ public class ScoreManager : MonoBehaviour {
 		}
 		if (other.gameObject.tag == "GoodBuilding" || other.gameObject.tag == "BadBuilding") {
 
+
 			if(!isAttackMode) //if not in attacking mode, just a crash 
 			{
 				score -= 10;
@@ -116,7 +117,7 @@ public class ScoreManager : MonoBehaviour {
 				other.gameObject.SetActive(false);
 
 
-
+				buildingExplode.Play();
 				if(other.gameObject.tag == "GoodBuilding")  //oops
 				{
 					Debug.Log("Hit a good building");
@@ -153,7 +154,7 @@ public class ScoreManager : MonoBehaviour {
 
 		AudioListener.volume *= 5;
 		yield return new WaitForSeconds(.5f);
-		AudioListener.volume /= 2;
+		AudioListener.volume /= 5;
 	}
 
 	void setScoreText(){
