@@ -13,6 +13,8 @@ public class ScoreManager : MonoBehaviour {
 	public GameObject Charge_attack;
 
 	AudioSource buildingExplode; 
+	AudioSource buildingHit;
+	AudioSource coinCollect;
 
 	// whether attacking mode or not
 	bool isAttackMode;
@@ -54,6 +56,8 @@ public class ScoreManager : MonoBehaviour {
 		// load audioclip
 		AudioSource[] soundEffects = GetComponents<AudioSource>();
 		buildingExplode = soundEffects [1]; 
+		buildingHit = soundEffects [2];
+		coinCollect = soundEffects [3];
 
 	}
 
@@ -94,6 +98,7 @@ public class ScoreManager : MonoBehaviour {
 			energy += 2f;
 			Destroy(other.gameObject);
 			Debug.Log("ate ball, time is " + Time.time);
+			coinCollect.Play ();
 			StartCoroutine(displayScore("+5!")); // display change in score
 			Instantiate(CoinEateffect, transform.position, Quaternion.identity);
 
@@ -106,6 +111,7 @@ public class ScoreManager : MonoBehaviour {
 				score -= 10;
 				life -= 10;
 				Debug.Log("Hitting building now");
+				buildingHit.Play ();
 				StartCoroutine(displayScore("Ouch!\n-10!")); // display change in score
 				//BuildingCollideEffect.SetActive(true);
 				//Instantiate(BuildingCollideEffect, transform.position, Quaternion.identity);
@@ -117,17 +123,19 @@ public class ScoreManager : MonoBehaviour {
 				other.gameObject.SetActive(false);
 
 
-				buildingExplode.Play();
+
 				if(other.gameObject.tag == "GoodBuilding")  //oops
 				{
 					Debug.Log("Hit a good building");
 					life -= 30;
+					buildingHit.Play ();
 					StartCoroutine(displayScore("Wrong Building!\n-30!")); // display change in score
 					//Instantiate(BuildingDestroyEffect, transform.position, Quaternion.identity);
 				}
 				else //destroyed bad building, good!
 				{
 					goalNum -= 1;
+					buildingExplode.Play();
 					StartCoroutine(displayScore("Keeping the Beat!")); // display change in score
 					StartCoroutine(increaseVolume()); // increase volume
 					PlayerPrefs.SetInt(buildingsKey, goalNum);
