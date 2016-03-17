@@ -166,7 +166,7 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	void setScoreText(){
-		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString() + "\nOffbeat Buildings: " + goalNum;
+		scoreText.text = "Life: " + life.ToString() + "\nEnergy: " + energy.ToString("F1") + "\nOffbeat Buildings: " + goalNum;
 	}
 //	void OnDisable(){
 //		// make list of the 5 highest scores
