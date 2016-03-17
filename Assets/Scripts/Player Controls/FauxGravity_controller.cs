@@ -23,12 +23,14 @@ public class FauxGravity_controller : MonoBehaviour {
 	public float mouseMultiplier = 1f;
 	private Vector3 moveDirection;
 	private int inverted;
+	private int mouse;
 
 
 	// Use this for initialization
 	void Start () {
 		body = GetComponent <Rigidbody> ();
 		inverted = PlayerPrefs.GetInt ("inversion");
+		mouse = PlayerPrefs.GetInt ("mouse");
 		speedUp = GetComponent<AudioSource>();
 	}
 
@@ -46,11 +48,11 @@ public class FauxGravity_controller : MonoBehaviour {
 			speedUp.Stop(); //stop attack mode boost music
 		}
 
-		//float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X") + Input.GetAxisRaw ("Horizontal");
-		//float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));
+		float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X")*mouse + Input.GetAxisRaw ("Horizontal");
+		float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y")*mouse + Input.GetAxisRaw ("Vertical"));
 		//sorry, disabilg mouse for now feels awkward
-		float horizontalInput = Input.GetAxisRaw ("Horizontal");
-		float verticalInput = inverted*Input.GetAxisRaw ("Vertical");
+		//float horizontalInput = Input.GetAxisRaw ("Horizontal");
+		//float verticalInput = inverted*Input.GetAxisRaw ("Vertical");
 
 		// get direction of movement from input
 		moveDirection = new Vector3 (horizontalInput*inputMoveSpeed, verticalInput*inputMoveSpeed, 1f).normalized;
