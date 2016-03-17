@@ -129,7 +129,7 @@ public class ScoreManager : MonoBehaviour {
 					Debug.Log("Hit a good building");
 					life -= 30;
 					buildingHit.Play ();
-					StartCoroutine(displayScore("Wrong Building!\n-30!")); // display change in score
+					StartCoroutine(displayScore("You Killed the Beat!\n-30!")); // display change in score
 					//Instantiate(BuildingDestroyEffect, transform.position, Quaternion.identity);
 				}
 				else //destroyed bad building, good!

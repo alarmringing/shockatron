@@ -27,7 +27,7 @@ public class Get_Score : MonoBehaviour {
 
 		string gameMessage = "YOU WIN!";
 		if (life <= 0) {
-			gameMessage = "The Music Destroyed You!\nTry again?";
+			gameMessage = "You Killed the Beat!\nTry again?";
 		} 
 
 		Debug.Log (score);
