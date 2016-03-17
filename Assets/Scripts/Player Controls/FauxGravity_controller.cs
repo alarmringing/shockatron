@@ -14,6 +14,9 @@ public class FauxGravity_controller : MonoBehaviour {
 	// set rigid body
 	private Rigidbody body;
 
+	// speed up audio
+	AudioSource speedUp;
+
 	// set speed controls
 	public float inputMoveSpeed = 0.8f;
 	public float moveSpeed = 80f;
@@ -27,14 +30,22 @@ public class FauxGravity_controller : MonoBehaviour {
 	void Start () {
 		body = GetComponent <Rigidbody> ();
 		inverted = PlayerPrefs.GetInt ("inversion");
-
+		speedUp = GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		if(Input.GetKey("space")) moveSpeed = 100f; //when attacking mode, faster
-		else moveSpeed = 70f; 
+		if(Input.GetKey("space"))
+		{
+			moveSpeed = 150f; //when attacking mode, faster
+			if(!speedUp.isPlaying) speedUp.Play(); //play attack mode boost music
+		}
+		else 
+		{
+			moveSpeed = 100f; 
+			speedUp.Stop(); //stop attack mode boost music
+		}
 
 		//float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X") + Input.GetAxisRaw ("Horizontal");
 		//float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));

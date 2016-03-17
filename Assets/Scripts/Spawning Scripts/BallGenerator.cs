@@ -47,7 +47,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		while(collideWithBuilding) 
 		{
 			float randomLeftRight = Random.Range(-leftRightSpan/2, leftRightSpan/2);
-			generateDirection = new Vector3(randomLeftRight, -player.transform.localScale.y*0.15f, 1f).normalized;
+			generateDirection = new Vector3(randomLeftRight, -player.transform.localScale.y*0.18f, 1f).normalized;
 			globalDirection = player.transform.TransformDirection(generateDirection)*generateDist;
 			generatePos = player.transform.position + globalDirection;
 			collideWithBuilding = false; //for now, later will check if ball gets stuck inside building

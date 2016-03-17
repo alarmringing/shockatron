@@ -58,13 +58,14 @@ public class ScoreManager : MonoBehaviour {
 		{
 			Debug.Log("Attack moode!");
 			isAttackMode = true;
-			energy -= 5 * Time.deltaTime; //expend energy every time attack mode is activated
+			energy -= 7 * Time.deltaTime; //expend energy every time attack mode is activated
 			Charge_normal.SetActive(false);
 			Charge_attack.SetActive(true);
 		}
 		else
 		{
 			isAttackMode =false;
+			energy -= 1 * Time.deltaTime; //user spends energy just traveling too
 			Charge_normal.SetActive(true);
 			Charge_attack.SetActive(false);
 		}
