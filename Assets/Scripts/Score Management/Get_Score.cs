@@ -25,10 +25,19 @@ public class Get_Score : MonoBehaviour {
 		energy = PlayerPrefs.GetInt (energyKey);
 		buildingsLeft = PlayerPrefs.GetInt(buildingsKey);
 
-		string gameMessage = "YOU WIN!";
-		if (life <= 0) {
+		string gameMessage = "";
+
+		if(buildingsLeft <= 0) 
+		{
+			gameMessage = "YOU WIN!";
+		}
+		else if (life <= 0) {
 			gameMessage = "You Killed the Beat!\nTry again?";
-		} 
+		}
+		else if (energy <= 0)
+		{
+			gameMessage = "Too Tired to Jam? \nTry again?";
+		}
 
 		Debug.Log (score);
 		scoreText.text = "Score: " + (score * life / 100.0f).ToString ();
