@@ -48,11 +48,12 @@ public class FauxGravity_controller : MonoBehaviour {
 			speedUp.Stop(); //stop attack mode boost music
 		}
 
-		float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X")*mouse + Input.GetAxisRaw ("Horizontal");
-		float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y")*mouse + Input.GetAxisRaw ("Vertical"));
+//		float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X")*mouse + Input.GetAxisRaw ("Horizontal");
+//		float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y")*mouse + Input.GetAxisRaw ("Vertical"));
+//		Debug.Log (mouse);
 		//sorry, disabilg mouse for now feels awkward
-		//float horizontalInput = Input.GetAxisRaw ("Horizontal");
-		//float verticalInput = inverted*Input.GetAxisRaw ("Vertical");
+		float horizontalInput = Input.GetAxisRaw ("Horizontal");
+		float verticalInput = inverted*Input.GetAxisRaw ("Vertical");
 
 		// get direction of movement from input
 		moveDirection = new Vector3 (horizontalInput*inputMoveSpeed, verticalInput*inputMoveSpeed, 1f).normalized;

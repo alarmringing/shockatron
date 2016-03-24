@@ -25,9 +25,9 @@ public class Get_Score : MonoBehaviour {
 		energy = PlayerPrefs.GetInt (energyKey);
 		buildingsLeft = PlayerPrefs.GetInt(buildingsKey);
 
-		string gameMessage = "YOU WIN!";
+		string gameMessage = "You kept the Beat!";
 		if (life <= 0) {
-			gameMessage = "You Killed the Beat!\nTry again?";
+			gameMessage = "You destroyed the Beat!\nTry again?";
 		} 
 
 		Debug.Log (score);

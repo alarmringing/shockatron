@@ -45,8 +45,8 @@ public class ChangeScenes : MonoBehaviour {
 
 	// controls the inversion of the y axis on loading the game
 	public void toggle_mouse(bool mouseSelected){
-
 		int enabled = (mouseSelected) ? (1) : (0);
+		Debug.Log (enabled);
 		PlayerPrefs.SetInt ("mouse", enabled);
 	}
 }
