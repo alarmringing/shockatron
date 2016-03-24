@@ -3,7 +3,7 @@ using System.Collections;
 
 public class playerNear_effects : MonoBehaviour {
 
-	NoiseAndScratches noise;
+	//NoiseAndScratches noise;
 
 	// Use this for initialization
 	void Start () {

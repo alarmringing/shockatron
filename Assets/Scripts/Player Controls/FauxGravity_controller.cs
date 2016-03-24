@@ -51,7 +51,7 @@ public class FauxGravity_controller : MonoBehaviour {
 		//float horizontalInput = mouseMultiplier*Input.GetAxis ("Mouse X") + Input.GetAxisRaw ("Horizontal");
 		//float verticalInput = inverted*(mouseMultiplier*Input.GetAxis ("Mouse Y") + Input.GetAxisRaw ("Vertical"));
 		//sorry, disabilg mouse for now feels awkward
-		float horizontalInput = Input.GetAxisRaw ("Horizontal");
+		float horizontalInput = inverted*Input.GetAxisRaw ("Horizontal");
 		float verticalInput = Input.GetAxisRaw ("Vertical");
 
 		// get direction of movement from input
