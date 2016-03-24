@@ -7,7 +7,7 @@ public class BallGenerator : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public GameObject ballToEat;
 	public GameObject player;
 	public float generateDist = 100f;
-	float leftRightSpan = 0.2f;
+	float leftRightSpan = 0.3f;
 	Vector3 lastBallPos;
 	//float playerMoveSpeed = 4f;
 //	private int ballCount; 
